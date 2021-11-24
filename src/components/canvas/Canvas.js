@@ -59,8 +59,19 @@ function Canvas(props) {
 
       ctx.fillStyle = colours[i-1];
       ctx.beginPath();
-      ctx.arc(centreX, centreY, radius, radianStep, radianStep + stepSize);
+      ctx.arc(centreX, centreY, radius, radianStep, radianStep - stepSize, true);
       ctx.fill();
+
+      // const trianglePointOneX = centreX + radius * Math.cos(radianStep);
+      // const trianglePointOneY = centreY - radius * Math.sin(radianStep);
+      // const trianglePointTwoX = centreX + radius * Math.cos(radianStep + stepSize);
+      // const trianglePointTwoY = centreY - radius * Math.sin(radianStep + stepSize);
+      //
+      // ctx.beginPath();
+      // ctx.moveTo(centreX, centreY);
+      // ctx.lineTo(trianglePointOneX, trianglePointOneY);
+      // ctx.lineTo(trianglePointTwoX, trianglePointTwoY);
+      // ctx.fill();
 
       radianStep += stepSize;
     }

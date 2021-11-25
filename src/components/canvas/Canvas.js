@@ -35,38 +35,41 @@ function Canvas(props) {
     const date = new Date();
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
 
-    // ctx.strokeStyle = black;
-    // for(let i=0; i<days; i+=1) {
-    //   const radians = i * ((2 * Math.PI) / days) + (Math.PI / 2);
-    //   const dayLineLen = radius / 10;
-    //   const lineStartX = centreX + (radius - dayLineLen) * Math.cos(radians);
-    //   const lineStartY = centreY - (radius - dayLineLen) * Math.sin(radians);
-    //   const lineEndX = centreX + radius * Math.cos(radians);
-    //   const lineEndY = centreY - radius * Math.sin(radians);
-    //
-    //   ctx.beginPath();
-    //   ctx.moveTo(lineStartX, lineStartY);
-    //   ctx.lineTo(lineEndX, lineEndY);
-    //   ctx.stroke();
-    // }
-
     const colours = [white, black, white, black, white, black, white, black, white, black, white, black];
     let radianStep = Math.PI / 2;
     for(let i=1; i<13; i+=1) {
+      console.log(radianStep);
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
       const stepSize = ((2 * Math.PI) / days) * daysInMonth;
-      console.log(radianStep);
 
-      ctx.fillStyle = colours[i-1];
+      ctx.fillStyle = white;
 
       ctx.beginPath();
       ctx.moveTo(centreX, centreY);
       ctx.arc(centreX, centreY, radius, radianStep, radianStep + stepSize, false);
       ctx.lineTo(centreX, centreY);
       ctx.closePath();
+      ctx.stroke();
       ctx.fill();
 
       radianStep += stepSize;
+    }
+
+    ctx.strokeStyle = black;
+    for(let i=0; i<days/2; i+=1) {
+      const radians = (Math.PI / 2) + (i * ((2 * Math.PI) / days));
+      console.log(i * ((2 * Math.PI) / days));
+        console.log(radians);
+      const dayLineLen = radius / 10;
+      const lineStartX = centreX + (radius - dayLineLen) * Math.cos(radians);
+      const lineStartY = centreY - (radius - dayLineLen) * Math.sin(radians);
+      const lineEndX = centreX + radius * Math.cos(radians);
+      const lineEndY = centreY - radius * Math.sin(radians);
+
+      ctx.beginPath();
+      ctx.moveTo(lineStartX, lineStartY);
+      ctx.lineTo(lineEndX, lineEndY);
+      ctx.stroke();
     }
   }, []);
 

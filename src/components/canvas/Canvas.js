@@ -51,27 +51,20 @@ function Canvas(props) {
     // }
 
     const colours = [white, black, white, black, white, black, white, black, white, black, white, black];
-    let radianStep = 0;
+    let radianStep = Math.PI / 2;
     for(let i=1; i<13; i+=1) {
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
       const stepSize = ((2 * Math.PI) / days) * daysInMonth;
-      console.log(stepSize);
+      console.log(radianStep);
 
       ctx.fillStyle = colours[i-1];
-      ctx.beginPath();
-      ctx.arc(centreX, centreY, radius, radianStep, radianStep - stepSize, true);
-      ctx.fill();
 
-      // const trianglePointOneX = centreX + radius * Math.cos(radianStep);
-      // const trianglePointOneY = centreY - radius * Math.sin(radianStep);
-      // const trianglePointTwoX = centreX + radius * Math.cos(radianStep + stepSize);
-      // const trianglePointTwoY = centreY - radius * Math.sin(radianStep + stepSize);
-      //
-      // ctx.beginPath();
-      // ctx.moveTo(centreX, centreY);
-      // ctx.lineTo(trianglePointOneX, trianglePointOneY);
-      // ctx.lineTo(trianglePointTwoX, trianglePointTwoY);
-      // ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(centreX, centreY);
+      ctx.arc(centreX, centreY, radius, radianStep, radianStep + stepSize, false);
+      ctx.lineTo(centreX, centreY);
+      ctx.closePath();
+      ctx.fill();
 
       radianStep += stepSize;
     }

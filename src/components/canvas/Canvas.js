@@ -36,7 +36,7 @@ function Canvas(props) {
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
 
     const colours = [white, black, white, black, white, black, white, black, white, black, white, black];
-    let radianStep = Math.PI / 2;
+    let radianStep = - Math.PI / 2;
     for(let i=1; i<13; i+=1) {
       console.log(radianStep);
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
@@ -56,8 +56,8 @@ function Canvas(props) {
     }
 
     ctx.strokeStyle = black;
-    for(let i=0; i<days/2; i+=1) {
-      const radians = (Math.PI / 2) + (i * ((2 * Math.PI) / days));
+    for(let i=0; i<days; i+=1) {
+      const radians = (Math.PI / 2) - (i * ((2 * Math.PI) / days));
       console.log(i * ((2 * Math.PI) / days));
         console.log(radians);
       const dayLineLen = radius / 10;

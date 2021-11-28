@@ -36,30 +36,34 @@ function Canvas(props) {
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
 
     const colours = [white, black, white, black, white, black, white, black, white, black, white, black];
-    let radianStep = - Math.PI / 2;
+    let radians = - Math.PI / 2;
+    ctx.font = "20px Consolas";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     for(let i=1; i<13; i+=1) {
-      console.log(radianStep);
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
       const stepSize = ((2 * Math.PI) / days) * daysInMonth;
 
       ctx.fillStyle = white;
-
       ctx.beginPath();
       ctx.moveTo(centreX, centreY);
-      ctx.arc(centreX, centreY, radius, radianStep, radianStep + stepSize, false);
+      ctx.arc(centreX, centreY, radius, radians, radians + stepSize, false);
       ctx.lineTo(centreX, centreY);
       ctx.closePath();
       ctx.stroke();
       ctx.fill();
 
-      radianStep += stepSize;
+      const textOffset = radius / 5;
+
+      ctx.fillStyle = black;
+      ctx.fillText(i, centreX + (radius - textOffset) * Math.cos(radians + stepSize / 2), centreY + (radius - textOffset) * Math.sin(radians + stepSize / 2));
+
+      radians += stepSize;
     }
 
     ctx.strokeStyle = black;
     for(let i=0; i<days; i+=1) {
       const radians = (Math.PI / 2) - (i * ((2 * Math.PI) / days));
-      console.log(i * ((2 * Math.PI) / days));
-        console.log(radians);
       const dayLineLen = radius / 10;
       const lineStartX = centreX + (radius - dayLineLen) * Math.cos(radians);
       const lineStartY = centreY - (radius - dayLineLen) * Math.sin(radians);

@@ -4,6 +4,7 @@ import "./Canvas.css";
 const black = "rgb(0, 0, 0)";
 const white = "rgb(255, 255, 255)";
 const red = "rgb(255, 0, 0)";
+const feintGrey = "rgba(120, 120, 120, 0.25)";
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -35,7 +36,6 @@ function Canvas(props) {
     const date = new Date();
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
 
-    const colours = [white, black, white, black, white, black, white, black, white, black, white, black];
     let radians = - Math.PI / 2;
     ctx.font = "20px Consolas";
     ctx.textAlign = "center";
@@ -69,7 +69,7 @@ function Canvas(props) {
     const startRadians = (Math.PI / 2);
     const dayStep = (2 * Math.PI) / days;
     for(let i=0; i<days; i+=1) {
-      const radians = startRadians - (i * dayStep) - (dayStep / 2);
+      const radians = startRadians - (i * dayStep);
       const dayLineLen = radius / 20;
       const lineStartX = centreX + (radius - dayLineLen) * Math.cos(radians);
       const lineStartY = centreY - (radius - dayLineLen) * Math.sin(radians);
@@ -83,10 +83,19 @@ function Canvas(props) {
     }
 
     const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    radians = startRadians - (dayOfYear * ((2 * Math.PI) / days)) - (dayStep / 2);
+    radians = startRadians - (dayOfYear * ((2 * Math.PI) / days));
     const lineEndX = centreX + radius * Math.cos(radians);
     const lineEndY = centreY - radius * Math.sin(radians);
-    console.log(dayOfYear);
+
+    ctx.fillStyle = feintGrey;
+    ctx.strokeStyle = feintGrey;
+    ctx.beginPath();
+    ctx.moveTo(centreX, centreY);
+    ctx.arc(centreX, centreY, radius, - startRadians, - startRadians + (dayOfYear * ((2 * Math.PI) / days)), false);
+    ctx.lineTo(centreX, centreY);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
 
     ctx.lineWidth = 3;
     ctx.strokeStyle = red;

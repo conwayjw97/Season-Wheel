@@ -3,6 +3,7 @@ import "./Canvas.css";
 
 const black = "rgb(0, 0, 0)";
 const white = "rgb(255, 255, 255)";
+const red = "rgb(255, 0, 0)";
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -31,11 +32,6 @@ function Canvas(props) {
     const radius = Math.floor(height/3);
 
     const ctx = canvas.current.getContext("2d");
-    // ctx.fillStyle = white;
-    // ctx.beginPath();
-    // ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
-    // ctx.fill();
-
     const date = new Date();
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
 
@@ -59,6 +55,7 @@ function Canvas(props) {
       ctx.fill();
 
       ctx.fillStyle = black;
+      ctx.lineWidth = 2;
       const centreRadians = radians + stepSize / 2;
       const textX = centreX + (radius - textOffset) * Math.cos(centreRadians);
       const textY = centreY + (radius - textOffset) * Math.sin(centreRadians);
@@ -68,9 +65,12 @@ function Canvas(props) {
     }
 
     ctx.strokeStyle = black;
+    ctx.lineWidth = 1;
+    const startRadians = (Math.PI / 2);
+    const dayStep = (2 * Math.PI) / days;
     for(let i=0; i<days; i+=1) {
-      const radians = (Math.PI / 2) - (i * ((2 * Math.PI) / days));
-      const dayLineLen = radius / 10;
+      const radians = startRadians - (i * dayStep) - (dayStep / 2);
+      const dayLineLen = radius / 20;
       const lineStartX = centreX + (radius - dayLineLen) * Math.cos(radians);
       const lineStartY = centreY - (radius - dayLineLen) * Math.sin(radians);
       const lineEndX = centreX + radius * Math.cos(radians);
@@ -81,6 +81,19 @@ function Canvas(props) {
       ctx.lineTo(lineEndX, lineEndY);
       ctx.stroke();
     }
+
+    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+    radians = startRadians - (dayOfYear * ((2 * Math.PI) / days)) - (dayStep / 2);
+    const lineEndX = centreX + radius * Math.cos(radians);
+    const lineEndY = centreY - radius * Math.sin(radians);
+    console.log(dayOfYear);
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = red;
+    ctx.beginPath();
+    ctx.moveTo(centreX, centreY);
+    ctx.lineTo(lineEndX, lineEndY);
+    ctx.stroke();
   }, []);
 
   return (

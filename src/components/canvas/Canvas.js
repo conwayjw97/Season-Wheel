@@ -5,6 +5,10 @@ const black = "rgb(0, 0, 0)";
 const white = "rgb(255, 255, 255)";
 const red = "rgb(255, 0, 0)";
 const feintGrey = "rgba(120, 120, 120, 0.25)";
+const springGreen = "rgba(25, 255, 10, 0.5)";
+const summerYellow = "rgba(240, 255, 10, 0.5)";
+const autumnBrown = "rgba(230, 110, 0, 0.5)";
+const winterBlue = "rgba(10, 255, 250, 0.5)";
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -103,6 +107,17 @@ function Canvas(props) {
     ctx.moveTo(centreX, centreY);
     ctx.lineTo(lineEndX, lineEndY);
     ctx.stroke();
+
+    ctx.fillStyle = feintGrey;
+    ctx.strokeStyle = feintGrey;
+    ctx.beginPath();
+    ctx.moveTo(centreX, centreY);
+    ctx.arc(centreX, centreY, radius, - startRadians, - startRadians + (dayOfYear * ((2 * Math.PI) / days)), false);
+    ctx.lineTo(centreX, centreY);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
+
   }, []);
 
   return (

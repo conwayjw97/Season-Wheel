@@ -4,6 +4,10 @@ import "./Canvas.css";
 const black = "rgb(0, 0, 0)";
 const white = "rgb(255, 255, 255)";
 
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
 function degToRad(degrees) {
   return degrees * Math.PI / 180;
 }
@@ -40,6 +44,7 @@ function Canvas(props) {
     ctx.font = "20px Consolas";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    const textOffset = radius / 4;
     for(let i=1; i<13; i+=1) {
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
       const stepSize = ((2 * Math.PI) / days) * daysInMonth;
@@ -53,10 +58,11 @@ function Canvas(props) {
       ctx.stroke();
       ctx.fill();
 
-      const textOffset = radius / 5;
-
       ctx.fillStyle = black;
-      ctx.fillText(i, centreX + (radius - textOffset) * Math.cos(radians + stepSize / 2), centreY + (radius - textOffset) * Math.sin(radians + stepSize / 2));
+      const centreRadians = radians + stepSize / 2;
+      const textX = centreX + (radius - textOffset) * Math.cos(centreRadians);
+      const textY = centreY + (radius - textOffset) * Math.sin(centreRadians);
+      ctx.fillText(monthNames[i-1], textX, textY);
 
       radians += stepSize;
     }

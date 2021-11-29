@@ -8,7 +8,7 @@ const feintGrey = "rgba(120, 120, 120, 0.3)";
 const springGreen = "rgba(0, 255, 0, 0.5)";
 const summerYellow = "rgba(255, 255, 0, 0.5)";
 const autumnBrown = "rgba(255, 127, 0, 0.5)";
-const winterBlue = "rgba(0, 255, 250, 0.5)";
+const winterBlue = "rgba(0, 255, 255, 0.5)";
 
 const Summer = Symbol("summer");
 const Autumn = Symbol("autumn");
@@ -20,9 +20,9 @@ const monthNames = [
   "September", "October", "November", "December"
 ];
 
-const monthSeasons = [
-  Winter, Winter, Spring, Spring, Spring, Summer, Summer, Summer, Autumn,
-  Autumn, Autumn, Winter
+const monthColours = [
+  winterBlue, winterBlue, springGreen, springGreen, springGreen, summerYellow,
+  summerYellow, summerYellow, autumnBrown, autumnBrown, autumnBrown, winterBlue
 ];
 
 function degToRad(degrees) {
@@ -53,11 +53,8 @@ function Canvas(props) {
 
     ctx.fillStyle = white;
     ctx.beginPath();
-    ctx.moveTo(centreX, centreY);
     ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
-    ctx.lineTo(centreX, centreY);
     ctx.closePath();
-    ctx.stroke();
     ctx.fill();
 
     let radians = - Math.PI / 2;
@@ -69,19 +66,19 @@ function Canvas(props) {
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
       const stepSize = ((2 * Math.PI) / days) * daysInMonth;
 
-      switch(monthSeasons[i-1]){
-        case Winter:
-          ctx.fillStyle = winterBlue;
-          break;
-        case Spring:
-          ctx.fillStyle = springGreen;
-          break;
-        case Summer:
-          ctx.fillStyle = summerYellow;
-          break;
-        case Autumn:
-          ctx.fillStyle = autumnBrown;
-          break;
+      ctx.fillStyle = monthColours[i-1];
+
+      const arcStartX = centreX + radius/2 * Math.cos(radians);
+      const arcStartY = centreY + radius/2 * Math.sin(radians);
+      const arcEndX = centreX + radius/2 * Math.cos(radians + stepSize);
+      const arcEndY = centreY + radius/2 * Math.sin(radians + stepSize);
+      const gradient = ctx.createLinearGradient(arcStartX, arcStartY, arcEndX, arcEndY);
+      console.log(i-1);
+      console.log(monthColours[i-2] + " : " + monthColours[i-1] + " : " + monthColours[i]);
+      if (monthColours[i] !== undefined && monthColours[i-1] !== monthColours[i]) {
+        gradient.addColorStop(0, monthColours[i-1]);
+        gradient.addColorStop(1, monthColours[i]);
+        ctx.fillStyle = gradient;
       }
 
       ctx.beginPath();

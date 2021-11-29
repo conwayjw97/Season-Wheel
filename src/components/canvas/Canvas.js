@@ -4,6 +4,7 @@ import "./Canvas.css";
 const black = "rgb(0, 0, 0)";
 const white = "rgb(255, 255, 255)";
 const red = "rgb(255, 0, 0)";
+const transparent = "rgba(255, 255, 255, 0)";
 const feintGrey = "rgba(120, 120, 120, 0.3)";
 const springGreen = "rgba(0, 255, 0, 0.5)";
 const summerYellow = "rgba(255, 255, 0, 0.5)";
@@ -77,7 +78,14 @@ function Canvas(props) {
       console.log(monthColours[i-2] + " : " + monthColours[i-1] + " : " + monthColours[i]);
       if (monthColours[i] !== undefined && monthColours[i-1] !== monthColours[i]) {
         gradient.addColorStop(0, monthColours[i-1]);
-        gradient.addColorStop(1, monthColours[i]);
+        gradient.addColorStop(0.75, monthColours[i-1]);
+        gradient.addColorStop(1, transparent);
+        ctx.fillStyle = gradient;
+      }
+      else if(monthColours[i-2] !== undefined && monthColours[i-2] !== monthColours[i-1]){
+        gradient.addColorStop(0, transparent);
+        gradient.addColorStop(0.75, monthColours[i-1]);
+        gradient.addColorStop(1, monthColours[i-1]);
         ctx.fillStyle = gradient;
       }
 

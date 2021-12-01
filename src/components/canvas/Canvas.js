@@ -6,10 +6,10 @@ const white = "rgb(255, 255, 255)";
 const red = "rgb(255, 0, 0)";
 const transparent = "rgba(255, 255, 255, 0)";
 const feintGrey = "rgba(120, 120, 120, 0.3)";
-const springGreen = "rgba(0, 255, 0, 0.5)";
-const summerYellow = "rgba(255, 255, 0, 0.5)";
-const autumnBrown = "rgba(255, 127, 0, 0.5)";
-const winterBlue = "rgba(0, 255, 255, 0.5)";
+const springGreen = "rgba(0, 255, 0, 0.65)";
+const summerYellow = "rgba(230, 230, 0, 0.65)";
+const autumnBrown = "rgba(255, 127, 0, 0.65)";
+const winterBlue = "rgba(0, 255, 255, 0.65)";
 
 const Summer = Symbol("summer");
 const Autumn = Symbol("autumn");
@@ -69,25 +69,25 @@ function Canvas(props) {
 
       ctx.fillStyle = monthColours[i-1];
 
-      const arcStartX = centreX + radius/2 * Math.cos(radians);
-      const arcStartY = centreY + radius/2 * Math.sin(radians);
-      const arcEndX = centreX + radius/2 * Math.cos(radians + stepSize);
-      const arcEndY = centreY + radius/2 * Math.sin(radians + stepSize);
-      const gradient = ctx.createLinearGradient(arcStartX, arcStartY, arcEndX, arcEndY);
-      console.log(i-1);
-      console.log(monthColours[i-2] + " : " + monthColours[i-1] + " : " + monthColours[i]);
-      if (monthColours[i] !== undefined && monthColours[i-1] !== monthColours[i]) {
-        gradient.addColorStop(0, monthColours[i-1]);
-        gradient.addColorStop(0.75, monthColours[i-1]);
-        gradient.addColorStop(1, transparent);
-        ctx.fillStyle = gradient;
-      }
-      else if(monthColours[i-2] !== undefined && monthColours[i-2] !== monthColours[i-1]){
-        gradient.addColorStop(0, transparent);
-        gradient.addColorStop(0.75, monthColours[i-1]);
-        gradient.addColorStop(1, monthColours[i-1]);
-        ctx.fillStyle = gradient;
-      }
+      // const arcStartX = centreX + radius/2 * Math.cos(radians);
+      // const arcStartY = centreY + radius/2 * Math.sin(radians);
+      // const arcEndX = centreX + radius/2 * Math.cos(radians + stepSize);
+      // const arcEndY = centreY + radius/2 * Math.sin(radians + stepSize);
+      // const gradient = ctx.createLinearGradient(arcStartX, arcStartY, arcEndX, arcEndY);
+      // console.log(i-1);
+      // console.log(monthColours[i-2] + " : " + monthColours[i-1] + " : " + monthColours[i]);
+      // if (monthColours[i] !== undefined && monthColours[i-1] !== monthColours[i]) {
+      //   gradient.addColorStop(0, monthColours[i-1]);
+      //   gradient.addColorStop(0.75, monthColours[i-1]);
+      //   gradient.addColorStop(1, transparent);
+      //   ctx.fillStyle = gradient;
+      // }
+      // else if(monthColours[i-2] !== undefined && monthColours[i-2] !== monthColours[i-1]){
+      //   gradient.addColorStop(0, transparent);
+      //   gradient.addColorStop(0.75, monthColours[i-1]);
+      //   gradient.addColorStop(1, monthColours[i-1]);
+      //   ctx.fillStyle = gradient;
+      // }
 
       ctx.beginPath();
       ctx.moveTo(centreX, centreY);

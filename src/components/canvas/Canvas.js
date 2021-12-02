@@ -149,7 +149,7 @@ function Canvas(props) {
   }, []);
 
   return (
-    <canvas ref={canvas} width={width} height={height} className="canvas">
+    <canvas ref={canvas} className="Canvas">
       <p>Your browser doesn"t support canvas.</p>
     </canvas>
   );

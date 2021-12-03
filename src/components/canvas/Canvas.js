@@ -39,35 +39,35 @@ function isLeapYear(year){
 }
 
 function isInFirstQuadrant(radians){
-  return radians >= 0 && radians <= Math.PI/2;
+  return radians <= (Math.PI / 2) && radians >= 0;
 }
 
 function isInSecondQuadrant(radians){
-  return radians > Math.PI/2 && radians <= Math.PI;
+  return radians < 0 && radians >= -(Math.PI / 2);
 }
 
 function isInThirdQuadrant(radians){
-  return radians > Math.PI && radians <= (3*Math.PI)/2;
+  return radians < -(Math.PI / 2) && radians >= -Math.PI;
 }
 
 function isInFourthQuadrant(radians){
-  return radians > (3*Math.PI)/2 && radians <= 2*Math.PI;
+  return radians < -Math.PI && radians >= -(3*Math.PI)/2;
 }
 
 function isInTopQuadrants(radians){
-  return isInFirstQuadrant(radians) || isInSecondQuadrant(radians);
-}
-
-function isInBottomQuadrants(radians){
-  return isInThirdQuadrant(radians) || isInFourthQuadrant(radians);
-}
-
-function isInRightQuadrants(radians){
   return isInFirstQuadrant(radians) || isInFourthQuadrant(radians);
 }
 
-function isInLeftQuadrants(radians){
+function isInBottomQuadrants(radians){
   return isInSecondQuadrant(radians) || isInThirdQuadrant(radians);
+}
+
+function isInRightQuadrants(radians){
+  return isInFirstQuadrant(radians) || isInSecondQuadrant(radians);
+}
+
+function isInLeftQuadrants(radians){
+  return isInThirdQuadrant(radians) || isInFourthQuadrant(radians);
 }
 
 function textAlignOutwards(ctx, radians){
@@ -242,8 +242,8 @@ function Canvas(props) {
     ctx.font = "20px Consolas";
     ctx.fillStyle = red;
     const yearPercentage = Math.round(((100 / days) * dayOfYear) * 100) / 100;
-    ctx.fillText(yearPercentage + "%", lineEndX - 15, lineEndY - 15);
-    ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1), lineEndX - 35, lineEndY - 35);
+    const dayAndMonth = date.getDate() + "/" + (date.getMonth() + 1);
+    ctx.fillText(dayAndMonth + " - " + yearPercentage + "%", lineEndX, lineEndY);
   }, []);
 
   return (

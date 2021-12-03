@@ -52,6 +52,13 @@ function Canvas(props) {
     const date = new Date();
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
 
+    ctx.font = "90px Consolas";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
+    ctx.fillStyle = white;
+    ctx.fillText(date.getFullYear(), centreX, centreY - radius - 70);
+
     ctx.fillStyle = white;
     ctx.beginPath();
     ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
@@ -149,7 +156,7 @@ function Canvas(props) {
   }, []);
 
   return (
-    <canvas ref={canvas} className="Canvas">
+    <canvas ref={canvas} width={width} height={height} className="Canvas">
       <p>Your browser doesn"t support canvas.</p>
     </canvas>
   );

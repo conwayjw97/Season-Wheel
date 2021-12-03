@@ -1,5 +1,4 @@
 import Canvas from './components/canvas/Canvas.js';
-import DateInfo from "./components/date/DateInfo.js";
 import './App.css';
 
 function App() {
@@ -7,7 +6,6 @@ function App() {
 
   return (
     <div style={{"height":height}} className="App">
-      <DateInfo/>
       <Canvas/>
     </div>
   );

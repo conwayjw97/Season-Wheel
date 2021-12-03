@@ -38,6 +38,92 @@ function isLeapYear(year){
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
 
+function isInFirstQuadrant(radians){
+  return radians >= 0 && radians <= Math.PI/2;
+}
+
+function isInSecondQuadrant(radians){
+  return radians > Math.PI/2 && radians <= Math.PI;
+}
+
+function isInThirdQuadrant(radians){
+  return radians > Math.PI && radians <= (3*Math.PI)/2;
+}
+
+function isInFourthQuadrant(radians){
+  return radians > (3*Math.PI)/2 && radians <= 2*Math.PI;
+}
+
+function isInTopQuadrants(radians){
+  return isInFirstQuadrant(radians) || isInSecondQuadrant(radians);
+}
+
+function isInBottomQuadrants(radians){
+  return isInThirdQuadrant(radians) || isInFourthQuadrant(radians);
+}
+
+function isInRightQuadrants(radians){
+  return isInFirstQuadrant(radians) || isInFourthQuadrant(radians);
+}
+
+function isInLeftQuadrants(radians){
+  return isInSecondQuadrant(radians) || isInThirdQuadrant(radians);
+}
+
+function textAlignOutwards(ctx, radians){
+  if(isInRightQuadrants(radians)){
+    console.log(1);
+    ctx.textAlign = "start";
+  }
+  if(isInLeftQuadrants(radians)){
+    console.log(2);
+    ctx.textAlign = "end";
+  }
+  if(isInTopQuadrants(radians)){
+    console.log(3);
+    ctx.textBaseline = "bottom";
+  }
+  if(isInBottomQuadrants(radians)){
+    console.log(4);
+    ctx.textBaseline = "top";
+  }
+}
+
+function textAlignInwards(ctx, radians){
+  if(isInRightQuadrants(radians)){
+    ctx.textAlign = "end";
+  }
+  if(isInLeftQuadrants(radians)){
+    ctx.textAlign = "start";
+  }
+  if(isInTopQuadrants(radians)){
+    ctx.textBaseline = "top";
+  }
+  if(isInBottomQuadrants(radians)){
+    ctx.textBaseline = "bottom";
+  }
+}
+
+function textAlignTopBottomInwards(ctx, radians){
+  ctx.textAlign = "center";
+  if(isInTopQuadrants(radians)){
+    ctx.textBaseline = "top";
+  }
+  if(isInBottomQuadrants(radians)){
+    ctx.textBaseline = "bottom";
+  }
+}
+
+function textAlignRightLeftInwards(ctx, radians){
+  ctx.textBaseline = "middle";
+  if(isInRightQuadrants(radians)){
+    ctx.textAlign = "end";
+  }
+  if(isInLeftQuadrants(radians)){
+    ctx.textAlign = "start";
+  }
+}
+
 function Canvas(props) {
   const canvas = useRef(null);
   const width = window.innerWidth;
@@ -51,6 +137,7 @@ function Canvas(props) {
     const ctx = canvas.current.getContext("2d");
     const date = new Date();
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
+    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 
     ctx.font = "90px Consolas";
     ctx.textAlign = "center";
@@ -67,8 +154,6 @@ function Canvas(props) {
 
     let radians = - Math.PI / 2;
     ctx.font = "20px Consolas";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
     const textOffset = radius / 3;
     for(let i=1; i<13; i+=1) {
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
@@ -132,7 +217,6 @@ function Canvas(props) {
       ctx.stroke();
     }
 
-    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
     radians = startRadians - (dayOfYear * ((2 * Math.PI) / days));
     const lineEndX = centreX + radius * Math.cos(radians);
     const lineEndY = centreY - radius * Math.sin(radians);
@@ -153,6 +237,13 @@ function Canvas(props) {
     ctx.moveTo(centreX, centreY);
     ctx.lineTo(lineEndX, lineEndY);
     ctx.stroke();
+
+    textAlignOutwards(ctx, radians);
+    ctx.font = "20px Consolas";
+    ctx.fillStyle = red;
+    const yearPercentage = Math.round(((100 / days) * dayOfYear) * 100) / 100;
+    ctx.fillText(yearPercentage + "%", lineEndX - 15, lineEndY - 15);
+    ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1), lineEndX - 35, lineEndY - 35);
   }, []);
 
   return (

@@ -32,7 +32,7 @@ function Canvas(props) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    ctx.fillStyle = Colour.white;
+    ctx.fillStyle = Colour.grey;
     ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(), centreX, centreY - radius - 70);
 
     ctx.fillStyle = Colour.white;
@@ -121,7 +121,7 @@ function Canvas(props) {
     // ctx.fill();
 
     ctx.lineWidth = 3;
-    ctx.strokeStyle = Colour.white;
+    ctx.strokeStyle = Colour.grey;
     ctx.beginPath();
     ctx.moveTo(centreX, centreY);
     ctx.lineTo(lineEndX, lineEndY);
@@ -129,7 +129,7 @@ function Canvas(props) {
 
     Text.textAlignOutwards(ctx, radians);
     ctx.font = "30px Consolas";
-    ctx.fillStyle = Colour.white;
+    ctx.fillStyle = Colour.grey;
     const yearPercentage = Math.round(((100 / days) * dayOfYear) * 100) / 100;
     ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
   }, []);

@@ -1,6 +1,7 @@
 export const black = "rgb(0, 0, 0)";
 export const white = "rgb(255, 255, 255)";
 export const red = "rgb(255, 0, 0)";
+export const grey = "rgb(200, 200, 200)";
 
 export const transparent = "rgba(255, 255, 255, 0)";
 export const feintGrey = "rgba(120, 120, 120, 0.3)";

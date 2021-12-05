@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import * as Quadrant from "./utils/quadrantHelpers.js";
 import "./Canvas.css";
 
 const black = "rgb(0, 0, 0)";
@@ -6,10 +7,10 @@ const white = "rgb(255, 255, 255)";
 const red = "rgb(255, 0, 0)";
 const transparent = "rgba(255, 255, 255, 0)";
 const feintGrey = "rgba(120, 120, 120, 0.3)";
-const springGreen = "rgba(0, 255, 0, 0.65)";
-const summerYellow = "rgba(230, 230, 0, 0.65)";
-const autumnBrown = "rgba(255, 127, 0, 0.65)";
-const winterBlue = "rgba(0, 255, 255, 0.65)";
+const springGreen = "rgba(0, 220, 0, 1)";
+const summerYellow = "rgba(230, 230, 0, 1)";
+const autumnBrown = "rgba(255, 127, 0, 1)";
+const winterBlue = "rgba(0, 175, 255, 0.8)";
 
 const Summer = Symbol("summer");
 const Autumn = Symbol("autumn");
@@ -38,88 +39,52 @@ function isLeapYear(year){
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
 }
 
-function isInFirstQuadrant(radians){
-  return radians <= (Math.PI / 2) && radians >= 0;
-}
-
-function isInSecondQuadrant(radians){
-  return radians < 0 && radians >= -(Math.PI / 2);
-}
-
-function isInThirdQuadrant(radians){
-  return radians < -(Math.PI / 2) && radians >= -Math.PI;
-}
-
-function isInFourthQuadrant(radians){
-  return radians < -Math.PI && radians >= -(3*Math.PI)/2;
-}
-
-function isInTopQuadrants(radians){
-  return isInFirstQuadrant(radians) || isInFourthQuadrant(radians);
-}
-
-function isInBottomQuadrants(radians){
-  return isInSecondQuadrant(radians) || isInThirdQuadrant(radians);
-}
-
-function isInRightQuadrants(radians){
-  return isInFirstQuadrant(radians) || isInSecondQuadrant(radians);
-}
-
-function isInLeftQuadrants(radians){
-  return isInThirdQuadrant(radians) || isInFourthQuadrant(radians);
-}
-
 function textAlignOutwards(ctx, radians){
-  if(isInRightQuadrants(radians)){
-    console.log(1);
+  if(Quadrant.isInRightQuadrants(radians)){
     ctx.textAlign = "start";
   }
-  if(isInLeftQuadrants(radians)){
-    console.log(2);
+  if(Quadrant.isInLeftQuadrants(radians)){
     ctx.textAlign = "end";
   }
-  if(isInTopQuadrants(radians)){
-    console.log(3);
+  if(Quadrant.isInTopQuadrants(radians)){
     ctx.textBaseline = "bottom";
   }
-  if(isInBottomQuadrants(radians)){
-    console.log(4);
+  if(Quadrant.isInBottomQuadrants(radians)){
     ctx.textBaseline = "top";
   }
 }
 
 function textAlignInwards(ctx, radians){
-  if(isInRightQuadrants(radians)){
+  if(Quadrant.isInRightQuadrants(radians)){
     ctx.textAlign = "end";
   }
-  if(isInLeftQuadrants(radians)){
+  if(Quadrant.isInLeftQuadrants(radians)){
     ctx.textAlign = "start";
   }
-  if(isInTopQuadrants(radians)){
+  if(Quadrant.isInTopQuadrants(radians)){
     ctx.textBaseline = "top";
   }
-  if(isInBottomQuadrants(radians)){
+  if(Quadrant.isInBottomQuadrants(radians)){
     ctx.textBaseline = "bottom";
   }
 }
 
 function textAlignTopBottomInwards(ctx, radians){
   ctx.textAlign = "center";
-  if(isInTopQuadrants(radians)){
+  if(Quadrant.isInTopQuadrants(radians)){
     ctx.textBaseline = "top";
   }
-  if(isInBottomQuadrants(radians)){
+  if(Quadrant.isInBottomQuadrants(radians)){
     ctx.textBaseline = "bottom";
   }
 }
 
 function textAlignRightLeftInwards(ctx, radians){
   ctx.textBaseline = "middle";
-  if(isInRightQuadrants(radians)){
+  if(Quadrant.isInRightQuadrants(radians)){
     ctx.textAlign = "end";
   }
-  if(isInLeftQuadrants(radians)){
+  if(Quadrant.isInLeftQuadrants(radians)){
     ctx.textAlign = "start";
   }
 }
@@ -139,12 +104,12 @@ function Canvas(props) {
     const days = isLeapYear(date.getFullYear()) ? 366 : 365;
     const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 
-    ctx.font = "90px Consolas";
+    ctx.font = "60px Consolas";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     ctx.fillStyle = white;
-    ctx.fillText(date.getFullYear(), centreX, centreY - radius - 70);
+    ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(), centreX, centreY - radius - 70);
 
     ctx.fillStyle = white;
     ctx.beginPath();
@@ -232,18 +197,17 @@ function Canvas(props) {
     // ctx.fill();
 
     ctx.lineWidth = 3;
-    ctx.strokeStyle = red;
+    ctx.strokeStyle = white;
     ctx.beginPath();
     ctx.moveTo(centreX, centreY);
     ctx.lineTo(lineEndX, lineEndY);
     ctx.stroke();
 
     textAlignOutwards(ctx, radians);
-    ctx.font = "20px Consolas";
-    ctx.fillStyle = red;
+    ctx.font = "30px Consolas";
+    ctx.fillStyle = white;
     const yearPercentage = Math.round(((100 / days) * dayOfYear) * 100) / 100;
-    const dayAndMonth = date.getDate() + "/" + (date.getMonth() + 1);
-    ctx.fillText(dayAndMonth + " - " + yearPercentage + "%", lineEndX, lineEndY);
+    ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
   }, []);
 
   return (

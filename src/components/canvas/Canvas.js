@@ -1,92 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import * as Quadrant from "./utils/quadrantHelpers.js";
+import * as Text from "./utils/textHelpers.js";
+import * as Colour from "./utils/colourHelpers.js";
 import "./Canvas.css";
-
-const black = "rgb(0, 0, 0)";
-const white = "rgb(255, 255, 255)";
-const red = "rgb(255, 0, 0)";
-const transparent = "rgba(255, 255, 255, 0)";
-const feintGrey = "rgba(120, 120, 120, 0.3)";
-const springGreen = "rgba(0, 220, 0, 1)";
-const summerYellow = "rgba(230, 230, 0, 1)";
-const autumnBrown = "rgba(255, 127, 0, 1)";
-const winterBlue = "rgba(0, 175, 255, 0.8)";
-
-const Summer = Symbol("summer");
-const Autumn = Symbol("autumn");
-const Winter = Symbol("winter");
-const Spring = Symbol("spring");
 
 const monthNames = [
   "January", "February", "March", "April", "May", "June", "July", "August",
   "September", "October", "November", "December"
 ];
 
-const monthColours = [
-  winterBlue, winterBlue, springGreen, springGreen, springGreen, summerYellow,
-  summerYellow, summerYellow, autumnBrown, autumnBrown, autumnBrown, winterBlue
-];
-
-function degToRad(degrees) {
-  return degrees * Math.PI / 180;
-}
-
-function radToDeg(radians) {
-  return radians * 180 / Math.PI;
-}
-
 function isLeapYear(year){
   return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
-}
-
-function textAlignOutwards(ctx, radians){
-  if(Quadrant.isInRightQuadrants(radians)){
-    ctx.textAlign = "start";
-  }
-  if(Quadrant.isInLeftQuadrants(radians)){
-    ctx.textAlign = "end";
-  }
-  if(Quadrant.isInTopQuadrants(radians)){
-    ctx.textBaseline = "bottom";
-  }
-  if(Quadrant.isInBottomQuadrants(radians)){
-    ctx.textBaseline = "top";
-  }
-}
-
-function textAlignInwards(ctx, radians){
-  if(Quadrant.isInRightQuadrants(radians)){
-    ctx.textAlign = "end";
-  }
-  if(Quadrant.isInLeftQuadrants(radians)){
-    ctx.textAlign = "start";
-  }
-  if(Quadrant.isInTopQuadrants(radians)){
-    ctx.textBaseline = "top";
-  }
-  if(Quadrant.isInBottomQuadrants(radians)){
-    ctx.textBaseline = "bottom";
-  }
-}
-
-function textAlignTopBottomInwards(ctx, radians){
-  ctx.textAlign = "center";
-  if(Quadrant.isInTopQuadrants(radians)){
-    ctx.textBaseline = "top";
-  }
-  if(Quadrant.isInBottomQuadrants(radians)){
-    ctx.textBaseline = "bottom";
-  }
-}
-
-function textAlignRightLeftInwards(ctx, radians){
-  ctx.textBaseline = "middle";
-  if(Quadrant.isInRightQuadrants(radians)){
-    ctx.textAlign = "end";
-  }
-  if(Quadrant.isInLeftQuadrants(radians)){
-    ctx.textAlign = "start";
-  }
 }
 
 function Canvas(props) {
@@ -108,10 +32,10 @@ function Canvas(props) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    ctx.fillStyle = white;
+    ctx.fillStyle = Colour.white;
     ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(), centreX, centreY - radius - 70);
 
-    ctx.fillStyle = white;
+    ctx.fillStyle = Colour.white;
     ctx.beginPath();
     ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
     ctx.closePath();
@@ -124,7 +48,7 @@ function Canvas(props) {
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
       const stepSize = ((2 * Math.PI) / days) * daysInMonth;
 
-      ctx.fillStyle = monthColours[i-1];
+      ctx.fillStyle = Colour.monthColours[i-1];
 
       // const arcStartX = centreX + radius/2 * Math.cos(radians);
       // const arcStartY = centreY + radius/2 * Math.sin(radians);
@@ -154,7 +78,7 @@ function Canvas(props) {
       ctx.stroke();
       ctx.fill();
 
-      ctx.fillStyle = black;
+      ctx.fillStyle = Colour.black;
       ctx.lineWidth = 2;
       const centreRadians = radians + stepSize / 2;
       const textX = centreX + (radius - textOffset) * Math.cos(centreRadians);
@@ -164,7 +88,7 @@ function Canvas(props) {
       radians += stepSize;
     }
 
-    ctx.strokeStyle = black;
+    ctx.strokeStyle = Colour.black;
     ctx.lineWidth = 1;
     const startRadians = (Math.PI / 2);
     const dayStep = (2 * Math.PI) / days;
@@ -197,15 +121,15 @@ function Canvas(props) {
     // ctx.fill();
 
     ctx.lineWidth = 3;
-    ctx.strokeStyle = white;
+    ctx.strokeStyle = Colour.white;
     ctx.beginPath();
     ctx.moveTo(centreX, centreY);
     ctx.lineTo(lineEndX, lineEndY);
     ctx.stroke();
 
-    textAlignOutwards(ctx, radians);
+    Text.textAlignOutwards(ctx, radians);
     ctx.font = "30px Consolas";
-    ctx.fillStyle = white;
+    ctx.fillStyle = Colour.white;
     const yearPercentage = Math.round(((100 / days) * dayOfYear) * 100) / 100;
     ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
   }, []);

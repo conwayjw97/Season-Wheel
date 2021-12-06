@@ -11,7 +11,7 @@ function Settings(props) {
 
   return (
     <div>
-      <button className="button openButton" style={{top: window.innerHeight-60, left: window.innerWidth-60}} onClick={handleButtonClick}>&#9998;</button>
+      <button className="button openButton" style={{bottom:60, left: 60}} onClick={handleButtonClick}>&#9998;</button>
       <div className="settingsMenu" style={{width: showing ? "600px" : "0"}}>
         <button className="button closeButton" onClick={handleButtonClick}>&times;</button>
 

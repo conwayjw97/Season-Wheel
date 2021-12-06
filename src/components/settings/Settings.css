@@ -5,7 +5,7 @@ hr {
 
 .button {
   position: absolute;
-  font-size: xx-large;
+  font-size: 60px;
   cursor: pointer;
   border: 0;
   background: transparent;
@@ -23,7 +23,7 @@ hr {
 
 .closeButton {
   top: 0;
-  right: 10px;
+  right: 30px;
 }
 
 .settingsMenu {

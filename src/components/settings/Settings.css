@@ -1,0 +1,113 @@
+hr {
+  border-top: 1px solid #757575;
+  margin: 0 20px;
+}
+
+.button {
+  position: absolute;
+  font-size: xx-large;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: white;
+  transition: 0.3s;
+}
+
+.button:hover {
+  text-shadow: 2px 2px 10px white;
+}
+
+.openButton {
+  transform: scale(-1, 1);
+}
+
+.closeButton {
+  top: 0;
+  right: 10px;
+}
+
+.settingsMenu {
+  position: fixed;
+  overflow-x: hidden;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  white-space: nowrap;
+  background: linear-gradient(
+      270deg,
+      rgba(0,0,0,0) 0%,
+      rgba(64, 70, 84, 1) 2.5%,
+      rgba(64, 70, 84, 1) 100%
+    );
+  padding-top: 30px;
+  transition: 0.5s;
+  color: #757575;
+  font-family: Consolas, monaco, monospace;
+}
+
+label.title {
+  text-align: center;
+  font-size: xx-large;
+}
+
+label.info {
+  text-align: center;
+  font-size: large;
+}
+
+div.variable {
+  font-size: large;
+}
+
+div.separator {
+  padding-top: 20px;
+}
+
+span.variableName {
+  width: 30%;
+  display: inline-block;
+}
+
+span.variableInput {
+  width: 50%;
+  display: inline-block;
+}
+
+span.variableDropdown {
+  width: 70%;
+  display: inline-block;
+  text-align: left;
+}
+
+select {
+  width: 90%;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 0;
+  border-radius: 4px;
+  margin: 0 1em;
+  width: 85%;
+  height: 2em;
+}
+
+span.variableValue {
+  width: 20%;
+  display: inline-block;
+}
+
+button.save {
+  cursor: pointer;
+  transition: 0.3s;
+  color: white;
+  background-color: #757575;
+  border: 0;
+  border-radius: 4px;
+  margin: 0 1em;
+  width: 85%;
+  height: 2em;
+}
+
+button.save:hover {
+  background-color: black;
+}

@@ -97,7 +97,7 @@ span.variableValue {
 }
 
 button.save {
-  font-size: 60px;
+  font-size: 50px;
   cursor: pointer;
   transition: 0.3s;
   color: white;
@@ -112,4 +112,9 @@ button.save {
 button.save:hover {
   background-color: white;
   color: black;
+}
+
+label {
+  font-size: 50px;
+  color: white;
 }

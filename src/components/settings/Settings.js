@@ -15,6 +15,15 @@ function Settings(props) {
       <div className="settingsMenu" style={{width: showing ? "500px" : "0"}}>
         <button className="button closeButton" onClick={handleButtonClick}>&times;</button>
 
+        <label className="" style={{padding: "1em 0", display: "block"}}>
+         Date:
+          <input type="text" style={{marginLeft: "0.25em", width: "45px", fontSize: "40px"}} value={props.degreeAngle} onChange={props.handleDegreeAngleChange}/>
+          /
+          <input type="text" style={{width: "20px", width: "45px", fontSize: "40px"}} value={props.radianAngle} onChange={props.handleRadianAngleChange}/>
+          /
+          <input type="text" style={{marginRight: "0.25em", width: "90px", fontSize: "40px"}} value={props.radianAngle} onChange={props.handleRadianAngleChange}/>
+        </label>
+
         <div className="separator" />
 
         <button className="save" >Save</button>

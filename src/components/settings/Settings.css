@@ -5,7 +5,7 @@ hr {
 
 .button {
   position: absolute;
-  font-size: 60px;
+  font-size: 50px;
   cursor: pointer;
   border: 0;
   background: transparent;
@@ -23,7 +23,7 @@ hr {
 
 .closeButton {
   top: 0;
-  right: 30px;
+  right: 35px;
 }
 
 .settingsMenu {
@@ -97,17 +97,19 @@ span.variableValue {
 }
 
 button.save {
+  font-size: 60px;
   cursor: pointer;
   transition: 0.3s;
   color: white;
-  background-color: #757575;
+  background-color: #282c34;
   border: 0;
   border-radius: 4px;
   margin: 0 1em;
-  width: 85%;
-  height: 2em;
+  width: 70%;
+  height: 80px;
 }
 
 button.save:hover {
-  background-color: black;
+  background-color: white;
+  color: black;
 }

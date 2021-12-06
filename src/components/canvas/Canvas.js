@@ -24,7 +24,7 @@ function Canvas(props) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    ctx.fillStyle = Colour.grey;
+    ctx.fillStyle = Colour.white;
     ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(), centreX, centreY - radius - 70);
   }
 

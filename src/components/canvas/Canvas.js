@@ -36,9 +36,10 @@ function Canvas(props) {
     ctx.fill();
   }
 
-  function drawMonthArcs(ctx){
+  function drawMonthSections(ctx){
     let radians = - Math.PI / 2;
     ctx.font = "20px Consolas";
+    ctx.strokeStyle = Colour.black;
     const textOffset = radius / 3;
     for(let i=1; i<13; i+=1) {
       const daysInMonth = new Date(date.getFullYear(), i, 0).getDate();
@@ -133,13 +134,35 @@ function Canvas(props) {
     ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
   }
 
-  useEffect(() => {
-    const ctx = canvas.current.getContext("2d");
+  async function fadeIn(ctx){
+    const timer = ms => new Promise(res => setTimeout(res, ms));
+    let alpha = 0.0;
+    let delta = 0.01;
+
+    while(alpha < 1.0){
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalAlpha = alpha;
+      resetCanvas(ctx);
+      alpha += delta;
+      alpha = Math.round(alpha * 1000) / 1000;
+      console.log(alpha);
+      await timer(10);
+    }
+    ctx.globalAlpha = 1.0;
+    resetCanvas(ctx);
+  }
+
+  function resetCanvas(ctx){
     drawDate(ctx);
-    drawBaseCircle(ctx);
-    drawMonthArcs(ctx);
+    drawMonthSections(ctx);
     drawDayLines(ctx);
     drawDateLine(ctx);
+  }
+
+  useEffect(() => {
+    const ctx = canvas.current.getContext("2d");
+    ctx.globalAlpha = 0;
+    fadeIn(ctx);
   }, []);
 
   return (

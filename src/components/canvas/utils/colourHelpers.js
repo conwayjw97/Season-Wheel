@@ -9,7 +9,7 @@ export const feintGrey = "rgba(120, 120, 120, 0.3)";
 const springGreen = "rgba(0, 220, 0, 1)";
 const summerYellow = "rgba(230, 230, 0, 1)";
 const autumnBrown = "rgba(255, 127, 0, 1)";
-const winterBlue = "rgba(0, 175, 255, 0.8)";
+const winterBlue = "rgba(0, 175, 255, 1)";
 
 export const monthColours = [
   winterBlue, winterBlue, springGreen, springGreen, springGreen, summerYellow,

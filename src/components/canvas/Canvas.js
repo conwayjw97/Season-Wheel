@@ -106,9 +106,11 @@ function Canvas(props) {
   }
 
   function drawDateLine(ctx){
-    const radians = startRadians - (dayOfYear * ((2 * Math.PI) / days));
-    const lineEndX = centreX + radius * Math.cos(radians);
-    const lineEndY = centreY - radius * Math.sin(radians);
+    const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (ctx.globalAlpha * 100));
+
+    const dateRadians = startRadians - (relativeDayOfYear * ((2 * Math.PI) / days));
+    const lineEndX = centreX + radius * Math.cos(dateRadians);
+    const lineEndY = centreY - radius * Math.sin(dateRadians);
 
     // ctx.fillStyle = feintGrey;
     // ctx.strokeStyle = feintGrey;
@@ -127,11 +129,11 @@ function Canvas(props) {
     ctx.lineTo(lineEndX, lineEndY);
     ctx.stroke();
 
-    Text.textAlignOutwards(ctx, radians);
+    Text.textAlignOutwards(ctx, dateRadians);
     ctx.font = "30px Consolas";
     ctx.fillStyle = Colour.grey;
-    const yearPercentage = Math.round(((100 / days) * dayOfYear) * 100) / 100;
-    ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
+    // const yearPercentage = Math.round(((100 / days) * relativeDayOfYear) * 100) / 100;
+    // ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
   }
 
   async function fadeIn(ctx){
@@ -145,7 +147,6 @@ function Canvas(props) {
       resetCanvas(ctx);
       alpha += delta;
       alpha = Math.round(alpha * 1000) / 1000;
-      console.log(alpha);
       await timer(10);
     }
     ctx.globalAlpha = 1.0;

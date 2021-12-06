@@ -1,46 +1,42 @@
 import React, { useEffect, useRef } from "react";
+
 import * as Quadrant from "./utils/quadrantHelpers.js";
 import * as Text from "./utils/textHelpers.js";
 import * as Colour from "./utils/colourHelpers.js";
+import * as DateTime from "./utils/datetimeHelpers.js";
+
 import "./Canvas.css";
-
-const monthNames = [
-  "January", "February", "March", "April", "May", "June", "July", "August",
-  "September", "October", "November", "December"
-];
-
-function isLeapYear(year){
-  return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
-}
 
 function Canvas(props) {
   const canvas = useRef(null);
   const width = window.innerWidth;
   const height = window.innerHeight;
+  const centreX = width/2;
+  const centreY = height/2;
+  const radius = Math.floor(height/3);
+  const startRadians = (Math.PI / 2);
+  const date = new Date();
+  const days = DateTime.isLeapYear(date.getFullYear()) ? 366 : 365;
+  const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 
-  useEffect(() => {
-    const centreX = width/2;
-    const centreY = height/2;
-    const radius = Math.floor(height/3);
-
-    const ctx = canvas.current.getContext("2d");
-    const date = new Date();
-    const days = isLeapYear(date.getFullYear()) ? 366 : 365;
-    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-
+  function drawDate(ctx){
     ctx.font = "60px Consolas";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     ctx.fillStyle = Colour.grey;
     ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(), centreX, centreY - radius - 70);
+  }
 
+  function drawBaseCircle(ctx){
     ctx.fillStyle = Colour.white;
     ctx.beginPath();
     ctx.arc(centreX, centreY, radius, 0, 2 * Math.PI);
     ctx.closePath();
     ctx.fill();
+  }
 
+  function drawMonthArcs(ctx){
     let radians = - Math.PI / 2;
     ctx.font = "20px Consolas";
     const textOffset = radius / 3;
@@ -83,14 +79,15 @@ function Canvas(props) {
       const centreRadians = radians + stepSize / 2;
       const textX = centreX + (radius - textOffset) * Math.cos(centreRadians);
       const textY = centreY + (radius - textOffset) * Math.sin(centreRadians);
-      ctx.fillText(monthNames[i-1], textX, textY);
+      ctx.fillText(DateTime.monthNames[i-1], textX, textY);
 
       radians += stepSize;
     }
+  }
 
+  function drawDayLines(ctx){
     ctx.strokeStyle = Colour.black;
     ctx.lineWidth = 1;
-    const startRadians = (Math.PI / 2);
     const dayStep = (2 * Math.PI) / days;
     for(let i=0; i<days; i+=1) {
       const radians = startRadians - (i * dayStep);
@@ -105,8 +102,10 @@ function Canvas(props) {
       ctx.lineTo(lineEndX, lineEndY);
       ctx.stroke();
     }
+  }
 
-    radians = startRadians - (dayOfYear * ((2 * Math.PI) / days));
+  function drawDateLine(ctx){
+    const radians = startRadians - (dayOfYear * ((2 * Math.PI) / days));
     const lineEndX = centreX + radius * Math.cos(radians);
     const lineEndY = centreY - radius * Math.sin(radians);
 
@@ -132,6 +131,15 @@ function Canvas(props) {
     ctx.fillStyle = Colour.grey;
     const yearPercentage = Math.round(((100 / days) * dayOfYear) * 100) / 100;
     ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
+  }
+
+  useEffect(() => {
+    const ctx = canvas.current.getContext("2d");
+    drawDate(ctx);
+    drawBaseCircle(ctx);
+    drawMonthArcs(ctx);
+    drawDayLines(ctx);
+    drawDateLine(ctx);
   }, []);
 
   return (

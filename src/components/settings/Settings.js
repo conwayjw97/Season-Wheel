@@ -17,11 +17,11 @@ function Settings(props) {
 
         <label className="" style={{padding: "1em 0", display: "block"}}>
          Date:
-          <input id="day" type="number" style={{marginLeft: "0.25em", width: "45px", fontSize: "28px"}} value={props.day} onChange={props.handleDateChange}/>
+          <input id="day" type="number" style={{marginLeft: "0.25em", width: "45px", fontSize: "28px"}} value={props.date.day} onChange={props.handleDateChange}/>
           /
-          <input id="month" type="number" style={{width: "45px", fontSize: "28px"}} value={props.month} onChange={props.handleDateChange}/>
+          <input id="month" type="number" style={{width: "45px", fontSize: "28px"}} value={props.date.month} onChange={props.handleDateChange}/>
           /
-          {props.date.getFullYear()}
+          {props.date.year}
         </label>
 
         <div className="separator" />

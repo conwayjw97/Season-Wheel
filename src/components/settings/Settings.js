@@ -17,9 +17,9 @@ function Settings(props) {
 
         <label className="" style={{padding: "1em 0", display: "block"}}>
          Date:
-          <input type="number" style={{marginLeft: "0.25em", width: "45px", fontSize: "28px"}} defaultValue={props.date.getDate()} onChange={props.handleDegreeAngleChange}/>
+          <input id="day" type="number" style={{marginLeft: "0.25em", width: "45px", fontSize: "28px"}} value={props.day} onChange={props.handleDateChange}/>
           /
-          <input type="number" style={{width: "45px", fontSize: "28px"}} defaultValue={props.date.getMonth()} onChange={props.handleRadianAngleChange}/>
+          <input id="month" type="number" style={{width: "45px", fontSize: "28px"}} value={props.month} onChange={props.handleDateChange}/>
           /
           {props.date.getFullYear()}
         </label>

@@ -107,11 +107,9 @@ function Canvas(props) {
 
   function drawDateLine(ctx){
     const piStep = Math.PI / (100 * ctx.globalAlpha);
-    console.log(Math.cos(piStep));
     // console.log(Math.sin(ctx.globalAlpha));
     const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (ctx.globalAlpha * 100));
     const dateRadians = startRadians - ((relativeDayOfYear) * ((2 * Math.PI) / days));
-    console.log(dateRadians);
     const lineEndX = centreX + radius * Math.cos(dateRadians);
     const lineEndY = centreY - radius * Math.sin(dateRadians);
 

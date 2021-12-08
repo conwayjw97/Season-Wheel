@@ -17,16 +17,16 @@ function Settings(props) {
 
         <label className="" style={{padding: "1em 0", display: "block"}}>
          Date:
-          <input type="text" style={{marginLeft: "0.25em", width: "45px", fontSize: "40px"}} value={props.degreeAngle} onChange={props.handleDegreeAngleChange}/>
+          <input type="text" style={{marginLeft: "0.25em", width: "25px", fontSize: "25px"}} defaultValue={props.date.getDate()} onChange={props.handleDegreeAngleChange}/>
           /
-          <input type="text" style={{width: "20px", width: "45px", fontSize: "40px"}} value={props.radianAngle} onChange={props.handleRadianAngleChange}/>
+          <input type="text" style={{width: "20px", width: "25px", fontSize: "25px"}} defaultValue={props.date.getMonth()} onChange={props.handleRadianAngleChange}/>
           /
-          <input type="text" style={{marginRight: "0.25em", width: "90px", fontSize: "40px"}} value={props.radianAngle} onChange={props.handleRadianAngleChange}/>
+          <input type="text" style={{marginRight: "0.25em", width: "55px", fontSize: "25px"}} defaultValue={props.date.getFullYear()} onChange={props.handleRadianAngleChange}/>
         </label>
 
         <div className="separator" />
 
-        <button className="save" >Save</button>
+        <button className="save" onClick={props.handleSave}>Save</button>
 
         <div id="credits" style={{position: "absolute", right: 10, top: window.innerHeight-30}}>
           <a href="https://github.com/conwayjw97">github.com/conwayjw97/</a>

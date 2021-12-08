@@ -4,11 +4,16 @@ import './App.css';
 
 function App() {
   const height = window.innerHeight;
+  const date = new Date();
+
+  const handleSave = () => {
+    console.log("Saved!");
+  }
 
   return (
     <div style={{"height":height}} className="App">
       <Canvas/>
-      <Settings/>
+      <Settings date={date} handleSave={handleSave}/>
     </div>
   );
 }

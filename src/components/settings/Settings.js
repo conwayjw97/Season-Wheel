@@ -17,11 +17,11 @@ function Settings(props) {
 
         <label className="" style={{padding: "1em 0", display: "block"}}>
          Date:
-          <input type="text" style={{marginLeft: "0.25em", width: "25px", fontSize: "25px"}} defaultValue={props.date.getDate()} onChange={props.handleDegreeAngleChange}/>
+          <input type="number" style={{marginLeft: "0.25em", width: "45px", fontSize: "28px"}} defaultValue={props.date.getDate()} onChange={props.handleDegreeAngleChange}/>
           /
-          <input type="text" style={{width: "20px", width: "25px", fontSize: "25px"}} defaultValue={props.date.getMonth()} onChange={props.handleRadianAngleChange}/>
+          <input type="number" style={{width: "45px", fontSize: "28px"}} defaultValue={props.date.getMonth()} onChange={props.handleRadianAngleChange}/>
           /
-          <input type="text" style={{marginRight: "0.25em", width: "55px", fontSize: "25px"}} defaultValue={props.date.getFullYear()} onChange={props.handleRadianAngleChange}/>
+          {props.date.getFullYear()}
         </label>
 
         <div className="separator" />

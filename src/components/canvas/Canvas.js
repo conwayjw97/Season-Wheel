@@ -17,7 +17,6 @@ function Canvas(props) {
   const startRadians = (Math.PI / 2);
   const date = new Date();
   const days = DateTime.isLeapYear(date.getFullYear()) ? 366 : 365;
-  const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 
   function drawDate(ctx){
     ctx.font = "60px Consolas";
@@ -25,7 +24,7 @@ function Canvas(props) {
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     ctx.fillStyle = Colour.white;
-    ctx.fillText(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear(), centreX, centreY - radius - 70);
+    ctx.fillText(props.date.day + "/" + props.date.month + "/" + date.getFullYear(), centreX, centreY - radius - 70);
   }
 
   function drawBaseCircle(ctx){
@@ -107,7 +106,10 @@ function Canvas(props) {
 
   function drawDateLine(ctx){
     const piStep = Math.PI / (100 * ctx.globalAlpha);
-    // console.log(Math.sin(ctx.globalAlpha));
+    date.setDate(props.date.day);
+    date.setMonth(props.date.month-1);
+
+    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
     const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (ctx.globalAlpha * 100));
     const dateRadians = startRadians - ((relativeDayOfYear) * ((2 * Math.PI) / days));
     const lineEndX = centreX + radius * Math.cos(dateRadians);
@@ -133,8 +135,8 @@ function Canvas(props) {
     Text.textAlignOutwards(ctx, dateRadians);
     ctx.font = "30px Consolas";
     ctx.fillStyle = Colour.white;
-    // const yearPercentage = Math.round(((100 / days) * relativeDayOfYear) * 100) / 100;
-    // ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
+    const yearPercentage = Math.round(((100 / days) * relativeDayOfYear) * 100) / 100;
+    ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
   }
 
   async function fadeIn(ctx){
@@ -143,7 +145,6 @@ function Canvas(props) {
     let delta = 0.01;
 
     while(alpha < 1.0){
-      ctx.clearRect(0, 0, width, height);
       ctx.globalAlpha = alpha;
       resetCanvas(ctx);
       alpha += delta;
@@ -155,6 +156,7 @@ function Canvas(props) {
   }
 
   function resetCanvas(ctx){
+    ctx.clearRect(0, 0, width, height);
     drawDate(ctx);
     drawMonthSections(ctx);
     drawDayLines(ctx);
@@ -165,7 +167,7 @@ function Canvas(props) {
     const ctx = canvas.current.getContext("2d");
     ctx.globalAlpha = 0;
     fadeIn(ctx);
-  }, []);
+  }, [props.updateCount]);
 
   return (
     <canvas ref={canvas} width={width} height={height} className="Canvas">

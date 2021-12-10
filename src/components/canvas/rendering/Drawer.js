@@ -3,7 +3,9 @@ import * as DateTime from "../utils/datetimeHelpers.js";
 import * as Text from "../utils/textHelpers.js";
 
 export default class Draw {
-  constructor() {
+  constructor(ctx) {
+    this.ctx = ctx;
+
     this.date = new Date();
     this.days = DateTime.isLeapYear(this.date.getFullYear()) ? 366 : 365;
 
@@ -13,76 +15,81 @@ export default class Draw {
     this.startRadians = (Math.PI / 2);
   }
 
-  drawDate(ctx, day, month){
-    ctx.font = "60px Consolas";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.fillStyle = Colour.white;
-    ctx.fillText(day + "/" + month + "/" + this.date.getFullYear(), this.centreX, this.centreY - this.radius - 70);
+  clear(){
+    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   }
 
-  drawBaseCircle(ctx){
-    ctx.fillStyle = Colour.white;
-    ctx.beginPath();
-    ctx.arc(this.centreX, this.centreY, this.radius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.fill();
+  drawDate(day, month){
+    this.ctx.font = "60px Consolas";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.textAlign = "center";
+    this.ctx.fillStyle = Colour.white;
+    this.ctx.fillText(day + "/" + month + "/" + this.date.getFullYear(), this.centreX, this.centreY - this.radius - 70);
   }
 
-  drawMonthSections(ctx){
+  drawBaseCircle(){
+    this.ctx.fillStyle = Colour.white;
+    this.ctx.beginPath();
+    this.ctx.arc(this.centreX, this.centreY, this.radius, 0, 2 * Math.PI);
+    this.ctx.closePath();
+    this.ctx.fill();
+  }
+
+  drawMonthSections(){
     let radians = - Math.PI / 2;
-    ctx.font = "20px Consolas";
-    ctx.strokeStyle = Colour.black;
+    this.ctx.font = "20px Consolas";
+    this.ctx.strokeStyle = Colour.black;
     const textOffset = this.radius / 3;
     for(let i=1; i<13; i+=1) {
       const daysInMonth = new Date(this.date.getFullYear(), i, 0).getDate();
       const stepSize = ((2 * Math.PI) / this.days) * daysInMonth;
 
-      ctx.fillStyle = Colour.monthColours[i-1];
+      this.ctx.fillStyle = Colour.monthColours[i-1];
+      this.ctx.lineWidth = 3;
 
       // const arcStartX = this.centreX + this.radius/2 * Math.cos(radians);
       // const arcStartY = this.centreY + this.radius/2 * Math.sin(radians);
       // const arcEndX = this.centreX + this.radius/2 * Math.cos(radians + stepSize);
       // const arcEndY = this.centreY + this.radius/2 * Math.sin(radians + stepSize);
-      // const gradient = ctx.createLinearGradient(arcStartX, arcStartY, arcEndX, arcEndY);
+      // const gradient = this.ctx.createLinearGradient(arcStartX, arcStartY, arcEndX, arcEndY);
       // console.log(i-1);
       // console.log(monthColours[i-2] + " : " + monthColours[i-1] + " : " + monthColours[i]);
       // if (monthColours[i] !== undefined && monthColours[i-1] !== monthColours[i]) {
       //   gradient.addColorStop(0, monthColours[i-1]);
       //   gradient.addColorStop(0.75, monthColours[i-1]);
       //   gradient.addColorStop(1, transparent);
-      //   ctx.fillStyle = gradient;
+      //   this.ctx.fillStyle = gradient;
       // }
       // else if(monthColours[i-2] !== undefined && monthColours[i-2] !== monthColours[i-1]){
       //   gradient.addColorStop(0, transparent);
       //   gradient.addColorStop(0.75, monthColours[i-1]);
       //   gradient.addColorStop(1, monthColours[i-1]);
-      //   ctx.fillStyle = gradient;
+      //   this.ctx.fillStyle = gradient;
       // }
 
-      ctx.beginPath();
-      ctx.moveTo(this.centreX, this.centreY);
-      ctx.arc(this.centreX, this.centreY, this.radius, radians, radians + stepSize, false);
-      ctx.lineTo(this.centreX, this.centreY);
-      ctx.closePath();
-      ctx.stroke();
-      ctx.fill();
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.centreX, this.centreY);
+      this.ctx.arc(this.centreX, this.centreY, this.radius, radians, radians + stepSize, false);
+      this.ctx.lineTo(this.centreX, this.centreY);
+      this.ctx.closePath();
+      this.ctx.stroke();
+      this.ctx.fill();
 
-      ctx.fillStyle = Colour.black;
-      ctx.lineWidth = 2;
+      this.ctx.fillStyle = Colour.black;
+
       const centreRadians = radians + stepSize / 2;
       const textX = this.centreX + (this.radius - textOffset) * Math.cos(centreRadians);
       const textY = this.centreY + (this.radius - textOffset) * Math.sin(centreRadians);
-      ctx.fillText(DateTime.monthNames[i-1], textX, textY);
+      this.ctx.fillText(DateTime.monthNames[i-1], textX, textY);
 
       radians += stepSize;
     }
   }
 
-  drawDayLines(ctx){
-    ctx.strokeStyle = Colour.black;
-    ctx.lineWidth = 1;
+  drawDayLines(){
+    this.ctx.strokeStyle = Colour.black;
+    this.ctx.lineWidth = 1;
     const dayStep = (2 * Math.PI) / this.days;
     for(let i=0; i<this.days; i+=1) {
       const radians = this.startRadians - (i * dayStep);
@@ -92,46 +99,46 @@ export default class Draw {
       const lineEndX = this.centreX + this.radius * Math.cos(radians);
       const lineEndY = this.centreY - this.radius * Math.sin(radians);
 
-      ctx.beginPath();
-      ctx.moveTo(lineStartX, lineStartY);
-      ctx.lineTo(lineEndX, lineEndY);
-      ctx.stroke();
+      this.ctx.beginPath();
+      this.ctx.moveTo(lineStartX, lineStartY);
+      this.ctx.lineTo(lineEndX, lineEndY);
+      this.ctx.stroke();
     }
   }
 
-  drawDateLine(ctx, day, month){
-    // const piStep = Math.PI / (100 * ctx.globalAlpha);
+  drawDateLine(day, month){
+    // const piStep = Math.PI / (100 * this.ctx.globalAlpha);
 
     this.date.setDate(day);
     this.date.setMonth(month-1);
 
     const dayOfYear = Math.floor((this.date - new Date(this.date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-    const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (ctx.globalAlpha * 100));
+    const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (this.ctx.globalAlpha * 100));
     const dateRadians = this.startRadians - ((relativeDayOfYear) * ((2 * Math.PI) / this.days));
     const lineEndX = this.centreX + this.radius * Math.cos(dateRadians);
     const lineEndY = this.centreY - this.radius * Math.sin(dateRadians);
 
-    // ctx.fillStyle = feintGrey;
-    // ctx.strokeStyle = feintGrey;
-    // ctx.beginPath();
-    // ctx.moveTo(this.centreX, this.centreY);
-    // ctx.arc(this.centreX, this.centreY, this.radius, - this.startRadians, - this.startRadians + (dayOfYear * ((2 * Math.PI) / days)), false);
-    // ctx.lineTo(this.centreX, this.centreY);
-    // ctx.closePath();
-    // ctx.stroke();
-    // ctx.fill();
+    // this.ctx.fillStyle = feintGrey;
+    // this.ctx.strokeStyle = feintGrey;
+    // this.ctx.beginPath();
+    // this.ctx.moveTo(this.centreX, this.centreY);
+    // this.ctx.arc(this.centreX, this.centreY, this.radius, - this.startRadians, - this.startRadians + (dayOfYear * ((2 * Math.PI) / days)), false);
+    // this.ctx.lineTo(this.centreX, this.centreY);
+    // this.ctx.closePath();
+    // this.ctx.stroke();
+    // this.ctx.fill();
 
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = Colour.white;
-    ctx.beginPath();
-    ctx.moveTo(this.centreX, this.centreY);
-    ctx.lineTo(lineEndX, lineEndY);
-    ctx.stroke();
+    this.ctx.lineWidth = 3;
+    this.ctx.strokeStyle = Colour.white;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.centreX, this.centreY);
+    this.ctx.lineTo(lineEndX, lineEndY);
+    this.ctx.stroke();
 
-    Text.textAlignOutwards(ctx, dateRadians);
-    ctx.font = "30px Consolas";
-    ctx.fillStyle = Colour.white;
+    Text.textAlignOutwards(this.ctx, dateRadians);
+    this.ctx.font = "30px Consolas";
+    this.ctx.fillStyle = Colour.white;
     const yearPercentage = Math.round(((100 / this.days) * relativeDayOfYear) * 100) / 100;
-    ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
+    this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
   }
 }

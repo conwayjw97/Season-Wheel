@@ -9,35 +9,34 @@ function Canvas(props) {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  async function fadeIn(ctx){
+  async function fadeIn(ctx, drawer){
     const timer = ms => new Promise(res => setTimeout(res, ms));
     let alpha = 0.0;
     let delta = 0.01;
 
-    while(alpha < 1.0){
+    while(alpha <= 1.0){
       ctx.globalAlpha = alpha;
-      resetCanvas(ctx);
+      resetCanvas(ctx, drawer);
       alpha += delta;
       alpha = Math.round(alpha * 1000) / 1000;
       await timer(10);
     }
-    ctx.globalAlpha = 1.0;
-    resetCanvas(ctx);
+    resetCanvas(ctx, drawer);
   }
 
-  function resetCanvas(ctx){
-    ctx.clearRect(0, 0, width, height);
-    const drawer = new Drawer();
-    drawer.drawDate(ctx, props.date.day, props.date.month);
-    drawer.drawMonthSections(ctx);
-    drawer.drawDayLines(ctx);
-    drawer.drawDateLine(ctx);
+  function resetCanvas(ctx, drawer){
+    drawer.clear();
+    drawer.drawDate(props.date.day, props.date.month);
+    drawer.drawMonthSections();
+    drawer.drawDayLines();
+    drawer.drawDateLine(props.date.day, props.date.month);
   }
 
   useEffect(() => {
     const ctx = canvas.current.getContext("2d");
+    const drawer = new Drawer(ctx);
     ctx.globalAlpha = 0;
-    fadeIn(ctx);
+    fadeIn(ctx, drawer);
   }, [props.updateCount]);
 
   return (

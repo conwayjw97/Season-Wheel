@@ -1,9 +1,12 @@
 import * as Colour from "../utils/colourHelpers.js";
 import * as DateTime from "../utils/datetimeHelpers.js";
 import * as Text from "../utils/textHelpers.js";
+import * as Weather from "../utils/weatherHelpers.js";
 
 export default class Draw {
   constructor(ctx) {
+    Weather.getWeather();
+
     this.ctx = ctx;
 
     this.date = new Date();

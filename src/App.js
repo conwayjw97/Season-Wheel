@@ -5,7 +5,7 @@ import Settings from './components/settings/Settings.js';
 import './App.css';
 
 const date = new Date();
-const initialDate = {day: date.getDate(), month: date.getMonth(), year: date.getFullYear()};
+const initialDate = {day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
 
 function reducer(state, action) {
   const elementId = action.nativeEvent.srcElement.id;

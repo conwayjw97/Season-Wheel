@@ -15,11 +15,11 @@ export default class Draw {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   }
 
-  drawDate(date, compDate){
+  drawDate(date){
     let dateString = date.day + "/" + date.month + "/" + date.year;
 
-    if(compDate.disabled != true){
-      dateString += " - " + compDate.day + "/" + compDate.month + "/" + date.year;
+    if(date.compDisabled != true){
+      dateString += " - " + date.compDay + "/" + date.compMonth + "/" + date.year;
     }
 
     Text.textAlignCentered(this.ctx);
@@ -88,7 +88,7 @@ export default class Draw {
     }
   }
 
-  drawDateLine(date, compDate){
+  drawDateLine(date){
     const daysInYear = DateTime.getDaysInYear(date.year);
 
     const dayOfYear = DateTime.getDayOfYear(date.day, date.month, date.year);
@@ -110,8 +110,8 @@ export default class Draw {
     const yearPercentage = Math.round(((100 / daysInYear) * relativeDayOfYear) * 100) / 100;
     this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
 
-    if(compDate.disabled != true){
-      const compDayOfYear = DateTime.getDayOfYear(compDate.day, compDate.month, date.year);
+    if(date.compDisabled != true){
+      const compDayOfYear = DateTime.getDayOfYear(date.compDay, date.compMonth, date.year);
       const relativeCompDayOfYear = Math.ceil((compDayOfYear / 100) * (this.ctx.globalAlpha * 100));
       const compDateRadians = this.startRadians - ((relativeCompDayOfYear) * ((2 * Math.PI) / daysInYear));
       const lineEndX = this.centreX + this.radius * Math.cos(compDateRadians);

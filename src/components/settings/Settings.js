@@ -30,12 +30,12 @@ function Settings(props) {
 
         <label className="heading">
          Comparative Date
-         <input id="compDisabled" type="checkbox" style={{marginLeft: "1em", transform: "scale(1.5)"}} checked={!props.compDate.disabled} onChange={props.handleCompDateChange}/>
+         <input id="compDisabled" type="checkbox" style={{marginLeft: "1em", transform: "scale(1.5)"}} checked={!props.date.compDisabled} onChange={props.handleDateChange}/>
         </label>
         <label className="dateField">
-          <input id="compDay" type="number" className="dayInput" disabled={props.compDate.disabled} value={props.compDate.day} onChange={props.handleCompDateChange}/>
+          <input id="compDay" type="number" className="dayInput" disabled={props.date.compDisabled} value={props.date.compDay} onChange={props.handleDateChange}/>
           /
-          <input id="compMonth" type="number" className="monthInput" disabled={props.compDate.disabled} value={props.compDate.month} onChange={props.handleCompDateChange}/>
+          <input id="compMonth" type="number" className="monthInput" disabled={props.date.compDisabled} value={props.date.compMonth} onChange={props.handleDateChange}/>
           /
           {props.date.year}
         </label>

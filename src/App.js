@@ -5,21 +5,29 @@ import Settings from './components/settings/Settings.js';
 import './App.css';
 
 const date = new Date();
-const initialDate = {day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
-const initialCompDate = {disabled: true, day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear()};
+const initialDate = {day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear(), compDisabled: true, compDay: date.getDate(), compMonth: date.getMonth()+1};
 
 function dateReducer(state, action) {
+  console.log(state);
   const elementId = action.nativeEvent.srcElement.id;
   switch (elementId) {
     case 'day':
       if(action.target.value > 0 && action.target.value < 32){
-        return {...state, day: action.target.value};
+        if(state.compMonth == state.month && state.compDay < action.target.value){
+          return {...state, day: action.target.value, compDay: action.target.value};
+        } else {
+          return {...state, day: action.target.value};
+        }
       } else {
         return {...state};
       }
     case 'month':
       if(action.target.value > 0 && action.target.value < 13){
-        return {...state, month: action.target.value};
+        if(state.compMonth < action.target.value){
+          return {...state, month: action.target.value, compMonth: action.target.value};
+        } else {
+          return {...state, month: action.target.value};
+        }
       } else {
         return {...state};
       }
@@ -29,23 +37,17 @@ function dateReducer(state, action) {
       } else {
         return {...state};
       }
-  }
-}
-
-function compDateReducer(state, action) {
-  const elementId = action.nativeEvent.srcElement.id;
-  switch (elementId) {
     case 'compDisabled':
-      return {...state, disabled: !action.target.checked};
+      return {...state, compDisabled: !action.target.checked};
     case 'compDay':
       if(action.target.value > 0 && action.target.value < 32){
-        return {...state, day: action.target.value};
+        return {...state, compDay: action.target.value};
       } else {
         return {...state};
       }
     case 'compMonth':
-      if(action.target.value > 0 && action.target.value < 13){
-        return {...state, month: action.target.value};
+      if(action.target.value > 0 && action.target.value < 13 && action.target.value > state.month){
+        return {...state, compMonth: action.target.value};
       } else {
         return {...state};
       }
@@ -56,7 +58,6 @@ function App() {
   const height = window.innerHeight;
 
   const [dateState, dateDispatch] = useReducer(dateReducer, initialDate);
-  const [compDateState, compDateDispatch] = useReducer(compDateReducer, initialCompDate);
   const [updateCount, setUpdateCount] = useState(0);
 
   const handleSave = () => {
@@ -65,8 +66,8 @@ function App() {
 
   return (
     <div style={{'height':height}} className='App'>
-      <Canvas date={dateState} compDate={compDateState} updateCount={updateCount}/>
-      <Settings date={dateState} compDate={compDateState} handleDateChange={dateDispatch} handleCompDateChange={compDateDispatch} handleSave={handleSave}/>
+      <Canvas date={dateState} updateCount={updateCount}/>
+      <Settings date={dateState} handleDateChange={dateDispatch} handleSave={handleSave}/>
     </div>
   );
 }

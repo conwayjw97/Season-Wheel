@@ -26,10 +26,10 @@ function Canvas(props) {
 
   function resetCanvas(ctx, drawer){
     drawer.clear();
-    drawer.drawDate(props.date);
+    drawer.drawDate(props.date, props.compDate);
     drawer.drawMonthSections(props.date);
     drawer.drawDayLines(props.date);
-    drawer.drawDateLine(props.date);
+    drawer.drawDateLine(props.date, props.compDate);
   }
 
   useEffect(() => {

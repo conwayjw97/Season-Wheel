@@ -15,13 +15,19 @@ export default class Draw {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   }
 
-  drawDate(date){
+  drawDate(date, compDate){
+    let dateString = date.day + "/" + date.month + "/" + date.year;
+
+    if(compDate.disabled != true){
+      dateString += " - " + compDate.day + "/" + compDate.month + "/" + date.year;
+    }
+
     this.ctx.font = "60px Consolas";
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
     this.ctx.textAlign = "center";
     this.ctx.fillStyle = Colour.white;
-    this.ctx.fillText(date.day + "/" + date.month + "/" + date.year, this.centreX, this.centreY - this.radius - 70);
+    this.ctx.fillText(dateString, this.centreX, this.centreY - this.radius - 70);
   }
 
   drawBaseCircle(){
@@ -84,7 +90,7 @@ export default class Draw {
     }
   }
 
-  drawDateLine(date){
+  drawDateLine(date, compDate){
     const daysInYear = DateTime.getDaysInYear(date.year);
 
     const dayOfYear = Math.floor((new Date(date.year, date.month-1, date.day) - new Date(date.year, 0, 0)) / 1000 / 60 / 60 / 24);
@@ -105,6 +111,33 @@ export default class Draw {
     this.ctx.fillStyle = Colour.white;
     const yearPercentage = Math.round(((100 / daysInYear) * relativeDayOfYear) * 100) / 100;
     this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
+
+    if(compDate.disabled != true){
+      const dayOfYear = Math.floor((new Date(date.year, compDate.month-1, compDate.day) - new Date(date.year, 0, 0)) / 1000 / 60 / 60 / 24);
+      const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (this.ctx.globalAlpha * 100));
+      const compDateRadians = this.startRadians - ((relativeDayOfYear) * ((2 * Math.PI) / daysInYear));
+      const lineEndX = this.centreX + this.radius * Math.cos(compDateRadians);
+      const lineEndY = this.centreY - this.radius * Math.sin(compDateRadians);
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.centreX, this.centreY);
+      this.ctx.lineTo(lineEndX, lineEndY);
+      this.ctx.stroke();
+
+      Text.textAlignOutwards(this.ctx, compDateRadians);
+      const yearPercentage = Math.round(((100 / daysInYear) * relativeDayOfYear) * 100) / 100;
+      this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
+
+      this.ctx.fillStyle = Colour.feintGrey;
+      this.ctx.strokeStyle = Colour.feintGrey;
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.centreX, this.centreY);
+      this.ctx.arc(this.centreX, this.centreY, this.radius, - dateRadians, - compDateRadians, false);
+      this.ctx.lineTo(this.centreX, this.centreY);
+      this.ctx.closePath();
+      this.ctx.stroke();
+      this.ctx.fill();
+    }
   }
 }
 
@@ -131,14 +164,3 @@ export default class Draw {
 
 // Can't remember what this was for
 // const piStep = Math.PI / (100 * this.ctx.globalAlpha);
-
-// Code snippet to draw an arc between to angles
-// this.ctx.fillStyle = feintGrey;
-// this.ctx.strokeStyle = feintGrey;
-// this.ctx.beginPath();
-// this.ctx.moveTo(this.centreX, this.centreY);
-// this.ctx.arc(this.centreX, this.centreY, this.radius, - this.startRadians, - this.startRadians + (dayOfYear * ((2 * Math.PI) / days)), false);
-// this.ctx.lineTo(this.centreX, this.centreY);
-// this.ctx.closePath();
-// this.ctx.stroke();
-// this.ctx.fill();

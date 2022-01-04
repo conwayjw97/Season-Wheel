@@ -36,7 +36,6 @@ function compDateReducer(state, action) {
   const elementId = action.nativeEvent.srcElement.id;
   switch (elementId) {
     case 'compDisabled':
-      console.log(action.target.checked)
       return {...state, disabled: !action.target.checked};
     case 'compDay':
       if(action.target.value > 0 && action.target.value < 32){
@@ -66,7 +65,7 @@ function App() {
 
   return (
     <div style={{'height':height}} className='App'>
-      <Canvas date={dateState} updateCount={updateCount}/>
+      <Canvas date={dateState} compDate={compDateState} updateCount={updateCount}/>
       <Settings date={dateState} compDate={compDateState} handleDateChange={dateDispatch} handleCompDateChange={compDateDispatch} handleSave={handleSave}/>
     </div>
   );

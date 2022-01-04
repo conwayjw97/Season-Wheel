@@ -4,7 +4,7 @@ export const red = "rgb(255, 0, 0)";
 export const grey = "rgb(200, 200, 200)";
 
 export const transparent = "rgba(255, 255, 255, 0)";
-export const feintGrey = "rgba(120, 120, 120, 0.3)";
+export const feintGrey = "rgba(200, 200, 200, 0.7)";
 
 const springGreen = "rgba(0, 220, 0, 1)";
 const summerYellow = "rgba(230, 230, 0, 1)";

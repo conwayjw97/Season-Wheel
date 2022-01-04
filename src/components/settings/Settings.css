@@ -51,6 +51,11 @@ label.info {
   font-size: large;
 }
 
+label.heading {
+  padding: 1em 0 0 0;
+  display: block;
+}
+
 div.variable {
   font-size: large;
 }

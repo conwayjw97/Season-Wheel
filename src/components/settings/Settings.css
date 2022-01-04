@@ -41,6 +41,11 @@ hr {
   font-family: Consolas, monaco, monospace;
 }
 
+label {
+  font-size: 35px;
+  color: white;
+}
+
 label.title {
   text-align: center;
   font-size: xx-large;
@@ -54,6 +59,28 @@ label.info {
 label.heading {
   padding: 1em 0 0 0;
   display: block;
+}
+
+label.dateField {
+  padding: 1em 0;
+  display: block;
+}
+
+input {
+  font-size: 28px;
+}
+
+input.dayInput {
+  margin-left: 0.25em;
+  width: 45px;
+}
+
+input.monthInput {
+  width: 45px;
+}
+
+input.yearInput {
+  width: 80px;
 }
 
 div.variable {
@@ -112,9 +139,4 @@ button.save {
 button.save:hover {
   background-color: white;
   color: black;
-}
-
-label {
-  font-size: 35px;
-  color: white;
 }

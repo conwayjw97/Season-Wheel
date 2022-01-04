@@ -18,12 +18,12 @@ function Settings(props) {
         <label className="heading">
          Date
         </label>
-        <label className="" style={{padding: "1em 0", display: "block"}}>
-          <input id="day" type="number" style={{marginLeft: "0.25em", width: "45px", fontSize: "28px"}} value={props.date.day} onChange={props.handleDateChange}/>
+        <label className="dateField">
+          <input id="day" type="number" className="dayInput" value={props.date.day} onChange={props.handleDateChange}/>
           /
-          <input id="month" type="number" style={{width: "45px", fontSize: "28px"}} value={props.date.month} onChange={props.handleDateChange}/>
+          <input id="month" type="number" className="monthInput" value={props.date.month} onChange={props.handleDateChange}/>
           /
-          {props.date.year}
+          <input id="year" type="number" className="yearInput" value={props.date.year} onChange={props.handleDateChange}/>
         </label>
 
         <hr/>
@@ -32,10 +32,10 @@ function Settings(props) {
          Comparative Date
          <input id="compDisabled" type="checkbox" style={{marginLeft: "1em", transform: "scale(1.5)"}} checked={!props.compDate.disabled} onChange={props.handleCompDateChange}/>
         </label>
-        <label className="" style={{padding: "1em 0", display: "block"}}>
-          <input id="compDay" type="number" style={{marginLeft: "0.25em", width: "45px", fontSize: "28px"}} disabled={props.compDate.disabled} value={props.compDate.day} onChange={props.handleCompDateChange}/>
+        <label className="dateField">
+          <input id="compDay" type="number" className="dayInput" disabled={props.compDate.disabled} value={props.compDate.day} onChange={props.handleCompDateChange}/>
           /
-          <input id="compMonth" type="number" style={{width: "45px", fontSize: "28px"}} disabled={props.compDate.disabled} value={props.compDate.month} onChange={props.handleCompDateChange}/>
+          <input id="compMonth" type="number" className="monthInput" disabled={props.compDate.disabled} value={props.compDate.month} onChange={props.handleCompDateChange}/>
           /
           {props.date.year}
         </label>

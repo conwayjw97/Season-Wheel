@@ -23,6 +23,12 @@ function dateReducer(state, action) {
       } else {
         return {...state};
       }
+    case 'year':
+      if(action.target.value > 0){
+        return {...state, year: action.target.value};
+      } else {
+        return {...state};
+      }
   }
 }
 

@@ -1,5 +1,10 @@
 import * as Quadrant from "./quadrantHelpers.js";
 
+export function textAlignCentered(ctx){
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+}
+
 export function textAlignOutwards(ctx, radians){
   if(Quadrant.isInRightQuadrants(radians)){
     ctx.textAlign = "start";

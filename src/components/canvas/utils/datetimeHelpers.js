@@ -10,3 +10,7 @@ export function isLeapYear(year){
 export function getDaysInYear(year){
   return isLeapYear(year) ? 366 : 365;
 }
+
+export function getDayOfYear(day, month, year){
+  return Math.floor((new Date(year, month-1, day) - new Date(year, 0, 0)) / 1000 / 60 / 60 / 24);
+}

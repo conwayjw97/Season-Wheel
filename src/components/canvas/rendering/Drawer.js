@@ -22,10 +22,8 @@ export default class Draw {
       dateString += " - " + compDate.day + "/" + compDate.month + "/" + date.year;
     }
 
+    Text.textAlignCentered(this.ctx);
     this.ctx.font = "60px Consolas";
-    this.ctx.textAlign = "center";
-    this.ctx.textBaseline = "middle";
-    this.ctx.textAlign = "center";
     this.ctx.fillStyle = Colour.white;
     this.ctx.fillText(dateString, this.centreX, this.centreY - this.radius - 70);
   }
@@ -93,7 +91,7 @@ export default class Draw {
   drawDateLine(date, compDate){
     const daysInYear = DateTime.getDaysInYear(date.year);
 
-    const dayOfYear = Math.floor((new Date(date.year, date.month-1, date.day) - new Date(date.year, 0, 0)) / 1000 / 60 / 60 / 24);
+    const dayOfYear = DateTime.getDayOfYear(date.day, date.month, date.year);
     const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (this.ctx.globalAlpha * 100));
     const dateRadians = this.startRadians - ((relativeDayOfYear) * ((2 * Math.PI) / daysInYear));
     const lineEndX = this.centreX + this.radius * Math.cos(dateRadians);
@@ -113,9 +111,9 @@ export default class Draw {
     this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
 
     if(compDate.disabled != true){
-      const dayOfYear = Math.floor((new Date(date.year, compDate.month-1, compDate.day) - new Date(date.year, 0, 0)) / 1000 / 60 / 60 / 24);
-      const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (this.ctx.globalAlpha * 100));
-      const compDateRadians = this.startRadians - ((relativeDayOfYear) * ((2 * Math.PI) / daysInYear));
+      const compDayOfYear = DateTime.getDayOfYear(compDate.day, compDate.month, date.year);
+      const relativeCompDayOfYear = Math.ceil((compDayOfYear / 100) * (this.ctx.globalAlpha * 100));
+      const compDateRadians = this.startRadians - ((relativeCompDayOfYear) * ((2 * Math.PI) / daysInYear));
       const lineEndX = this.centreX + this.radius * Math.cos(compDateRadians);
       const lineEndY = this.centreY - this.radius * Math.sin(compDateRadians);
 
@@ -125,7 +123,7 @@ export default class Draw {
       this.ctx.stroke();
 
       Text.textAlignOutwards(this.ctx, compDateRadians);
-      const yearPercentage = Math.round(((100 / daysInYear) * relativeDayOfYear) * 100) / 100;
+      const yearPercentage = Math.round(((100 / daysInYear) * relativeCompDayOfYear) * 100) / 100;
       this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
 
       this.ctx.fillStyle = Colour.feintGrey;
@@ -137,6 +135,15 @@ export default class Draw {
       this.ctx.closePath();
       this.ctx.stroke();
       this.ctx.fill();
+
+      Text.textAlignCentered(this.ctx);
+      this.ctx.font = "20px Consolas";
+      this.ctx.fillStyle = Colour.black;
+      const textOffset = this.radius / 3;
+      const centreRadians = dateRadians + (compDateRadians - dateRadians) / 2;
+      const textX = this.centreX + (this.radius - textOffset) * Math.cos(centreRadians);
+      const textY = this.centreY - (this.radius - textOffset) * Math.sin(centreRadians);
+      this.ctx.fillText(relativeCompDayOfYear - relativeDayOfYear + " Days", textX, textY);
     }
   }
 }

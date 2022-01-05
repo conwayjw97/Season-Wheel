@@ -30,6 +30,7 @@ function Canvas(props) {
     drawer.drawMonthSections(props.date);
     drawer.drawDayLines(props.date);
     drawer.drawDateLine(props.date);
+    drawer.drawComparisonAnalysis(props.date);
   }
 
   useEffect(() => {

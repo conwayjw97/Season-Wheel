@@ -123,8 +123,8 @@ export default class Draw {
       this.ctx.stroke();
 
       Text.textAlignOutwards(this.ctx, compDateRadians);
-      const yearPercentage = Math.round(((100 / daysInYear) * relativeCompDayOfYear) * 100) / 100;
-      this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
+      const compYearPercentage = Math.round(((100 / daysInYear) * relativeCompDayOfYear) * 100) / 100;
+      this.ctx.fillText(compYearPercentage + "%", lineEndX, lineEndY);
 
 
       this.ctx.fillStyle = Colour.feintGrey;
@@ -137,17 +137,33 @@ export default class Draw {
       this.ctx.stroke();
       this.ctx.fill();
 
-
       Text.textAlignCentered(this.ctx);
-      this.ctx.font = "20px Consolas";
-      this.ctx.fillStyle = Colour.black;
+      this.ctx.font = "30px Consolas";
+      this.ctx.fillStyle = Colour.white;
       const textOffset = this.radius / 3;
       const centreRadians = dateRadians + (compDateRadians - dateRadians) / 2;
       const textX = this.centreX + (this.radius - textOffset) * Math.cos(centreRadians);
       const textY = this.centreY - (this.radius - textOffset) * Math.sin(centreRadians);
-      this.ctx.fillText(relativeCompDayOfYear - relativeDayOfYear + " Days", textX, textY - 25);
-      this.ctx.fillText(Math.round((relativeCompDayOfYear - relativeDayOfYear)/7 * 10) / 10 + " Weeks", textX, textY);
-      this.ctx.fillText(Math.round((relativeCompDayOfYear - relativeDayOfYear)/30* 100) / 100 + " Months", textX, textY + 25);
+      this.ctx.fillText(Math.round((compYearPercentage - yearPercentage) * 10) / 10 + "%", textX, textY);
+    }
+  }
+
+  drawComparisonAnalysis(date){
+    if(date.compDisabled != true){
+      const dayOfYear = DateTime.getDayOfYear(date.day, date.month, date.year);
+      const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (this.ctx.globalAlpha * 100));
+      const compDayOfYear = DateTime.getDayOfYear(date.compDay, date.compMonth, date.year);
+      const relativeCompDayOfYear = Math.ceil((compDayOfYear / 100) * (this.ctx.globalAlpha * 100));
+      const totalDays = relativeCompDayOfYear - relativeDayOfYear + " Days";
+      const totalWeeks = Math.round((relativeCompDayOfYear - relativeDayOfYear)/7 * 10) / 10 + " Weeks";
+      const totalMonths = Math.round((relativeCompDayOfYear - relativeDayOfYear)/30* 100) / 100 + " Months";
+
+      Text.textAlignCentered(this.ctx);
+      this.ctx.font = "30px Consolas";
+      this.ctx.fillStyle = Colour.white;
+      this.ctx.fillText(totalDays,this.centreX, this.centreY + this.radius + 70);
+      this.ctx.fillText(totalWeeks, this.centreX, this.centreY + this.radius + 70 + 40);
+      this.ctx.fillText(totalMonths, this.centreX, this.centreY + this.radius + 70 + 80);
     }
   }
 }

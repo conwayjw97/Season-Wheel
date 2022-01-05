@@ -83,6 +83,11 @@ input.yearInput {
   width: 80px;
 }
 
+input.checkboxInput{
+  margin-left: 1em; 
+  transform: scale(1.5);
+}
+
 div.variable {
   font-size: large;
 }

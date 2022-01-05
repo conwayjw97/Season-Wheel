@@ -126,6 +126,7 @@ export default class Draw {
       const yearPercentage = Math.round(((100 / daysInYear) * relativeCompDayOfYear) * 100) / 100;
       this.ctx.fillText(yearPercentage + "%", lineEndX, lineEndY);
 
+
       this.ctx.fillStyle = Colour.feintGrey;
       this.ctx.strokeStyle = Colour.feintGrey;
       this.ctx.beginPath();
@@ -136,6 +137,7 @@ export default class Draw {
       this.ctx.stroke();
       this.ctx.fill();
 
+
       Text.textAlignCentered(this.ctx);
       this.ctx.font = "20px Consolas";
       this.ctx.fillStyle = Colour.black;
@@ -143,7 +145,9 @@ export default class Draw {
       const centreRadians = dateRadians + (compDateRadians - dateRadians) / 2;
       const textX = this.centreX + (this.radius - textOffset) * Math.cos(centreRadians);
       const textY = this.centreY - (this.radius - textOffset) * Math.sin(centreRadians);
-      this.ctx.fillText(relativeCompDayOfYear - relativeDayOfYear + " Days", textX, textY);
+      this.ctx.fillText(relativeCompDayOfYear - relativeDayOfYear + " Days", textX, textY - 25);
+      this.ctx.fillText(Math.round((relativeCompDayOfYear - relativeDayOfYear)/7 * 10) / 10 + " Weeks", textX, textY);
+      this.ctx.fillText(Math.round((relativeCompDayOfYear - relativeDayOfYear)/30* 100) / 100 + " Months", textX, textY + 25);
     }
   }
 }

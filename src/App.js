@@ -5,49 +5,56 @@ import Settings from './components/settings/Settings.js';
 import './App.css';
 
 const date = new Date();
-const initialDate = {day: date.getDate(), month: date.getMonth()+1, year: date.getFullYear(), compDisabled: true, compDay: date.getDate(), compMonth: date.getMonth()+1};
+const initialDate = {
+  day: date.getDate(),
+  month: date.getMonth()+1,
+  year: date.getFullYear(),
+  compDisabled: true,
+  compDay: date.getDate(),
+  compMonth: date.getMonth()+1
+};
 
 function dateReducer(state, action) {
-  console.log(state);
   const elementId = action.nativeEvent.srcElement.id;
+  const newValue = action.target.value;
   switch (elementId) {
     case 'day':
-      if(action.target.value > 0 && action.target.value < 32){
-        if(state.compMonth == state.month && state.compDay < action.target.value){
-          return {...state, day: action.target.value, compDay: action.target.value};
+      if(newValue > 0 && newValue < 32){
+        if(state.compMonth == state.month && state.compDay < newValue){
+          return {...state, day: newValue, compDay: newValue};
         } else {
-          return {...state, day: action.target.value};
+          return {...state, day: newValue};
         }
       } else {
         return {...state};
       }
     case 'month':
-      if(action.target.value > 0 && action.target.value < 13){
-        if(state.compMonth < action.target.value){
-          return {...state, month: action.target.value, compMonth: action.target.value};
+      if(newValue > 0 && newValue < 13){
+        if(state.compMonth < newValue){
+          return {...state, month: newValue, compMonth: newValue};
         } else {
-          return {...state, month: action.target.value};
+          return {...state, month: newValue};
         }
       } else {
         return {...state};
       }
     case 'year':
-      if(action.target.value > 0){
-        return {...state, year: action.target.value};
+      if(newValue > 0){
+        return {...state, year: newValue};
       } else {
         return {...state};
       }
     case 'compDisabled':
       return {...state, compDisabled: !action.target.checked};
     case 'compDay':
-      if(action.target.value > 0 && action.target.value < 32){
-        return {...state, compDay: action.target.value};
+      if(newValue > 0 && newValue < 32){
+        return {...state, compDay: newValue};
       } else {
         return {...state};
       }
     case 'compMonth':
-      if(action.target.value > 0 && action.target.value < 13 && action.target.value > state.month){
-        return {...state, compMonth: action.target.value};
+      if(newValue > 0 && newValue < 13 && newValue > state.month){
+        return {...state, compMonth: newValue};
       } else {
         return {...state};
       }

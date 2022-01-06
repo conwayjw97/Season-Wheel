@@ -127,8 +127,8 @@ export default class Draw {
       this.ctx.fillText(compYearPercentage + "%", lineEndX, lineEndY);
 
 
-      this.ctx.fillStyle = Colour.feintGrey;
-      this.ctx.strokeStyle = Colour.feintGrey;
+      this.ctx.fillStyle = Colour.transparentBlack;
+      this.ctx.strokeStyle = Colour.white;
       this.ctx.beginPath();
       this.ctx.moveTo(this.centreX, this.centreY);
       this.ctx.arc(this.centreX, this.centreY, this.radius, - dateRadians, - compDateRadians, false);
@@ -161,9 +161,9 @@ export default class Draw {
       Text.textAlignCentered(this.ctx);
       this.ctx.font = "30px Consolas";
       this.ctx.fillStyle = Colour.white;
-      this.ctx.fillText(totalDays,this.centreX, this.centreY + this.radius + 70);
-      this.ctx.fillText(totalWeeks, this.centreX, this.centreY + this.radius + 70 + 40);
-      this.ctx.fillText(totalMonths, this.centreX, this.centreY + this.radius + 70 + 80);
+      this.ctx.fillText(totalDays,this.centreX, this.centreY + this.radius + 50);
+      this.ctx.fillText(totalWeeks, this.centreX, this.centreY + this.radius + 50 + 40);
+      this.ctx.fillText(totalMonths, this.centreX, this.centreY + this.radius + 50 + 80);
     }
   }
 }

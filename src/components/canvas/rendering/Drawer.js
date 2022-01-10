@@ -35,6 +35,8 @@ export default class Draw {
   }
 
   drawMonthSections(date){
+    const equinoxSolsticeDates = DateTime.getEquinoxSolsticeDates(date.year);
+    
     let radians = - Math.PI / 2;
     this.ctx.font = "20px Consolas";
     this.ctx.strokeStyle = Colour.black;

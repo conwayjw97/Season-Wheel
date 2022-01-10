@@ -1,6 +1,6 @@
 // Data Ideas: Seasons, Temperature, Daylight
 
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useReducer, useState } from 'react';
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Canvas from './components/canvas/Canvas.js';
 import Settings from './components/settings/Settings.js';
@@ -63,18 +63,6 @@ function dateReducer(state, action) {
   }
 }
 
-async function getAstroScript(){
-  const timer = ms => new Promise(res => setTimeout(res, ms));
-
-  while(typeof window.eqsol != "function"){
-    await timer(10);
-  }
-
-  let eqsol = window.eqsol(2013);
-  let marchEquinox = window.jd_data(eqsol[0]);
-  console.log(window.sc_day_hm(marchEquinox[0])+" : "+marchEquinox[1]+" : "+marchEquinox[2]);
-}
-
 function App() {
   const height = window.innerHeight;
 
@@ -84,12 +72,6 @@ function App() {
   const handleSave = () => {
     setUpdateCount(updateCount+1);
   }
-
-
-
-  useEffect(() => {
-    getAstroScript()
-  }, []);
 
   return (
     <HelmetProvider>

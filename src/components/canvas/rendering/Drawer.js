@@ -17,10 +17,8 @@ export default class Draw {
 
   drawDate(date){
     let dateString = date.day + "/" + date.month + "/" + date.year;
-
-    if(date.compDisabled != true){
+    if(date.compDisabled != true)
       dateString += " - " + date.compDay + "/" + date.compMonth + "/" + date.year;
-    }
 
     Text.textAlignCentered(this.ctx);
     this.ctx.font = "60px Consolas";
@@ -125,7 +123,6 @@ export default class Draw {
       Text.textAlignOutwards(this.ctx, compDateRadians);
       const compYearPercentage = Math.round(((100 / daysInYear) * relativeCompDayOfYear) * 100) / 100;
       this.ctx.fillText(compYearPercentage + "%", lineEndX, lineEndY);
-
 
       this.ctx.fillStyle = Colour.transparentBlack;
       this.ctx.strokeStyle = Colour.white;

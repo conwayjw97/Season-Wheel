@@ -38,6 +38,10 @@ function Canvas(props) {
     const drawer = new Drawer(ctx);
     ctx.globalAlpha = 0;
     fadeIn(ctx, drawer);
+
+    // let eqsol = window.eqsol(2013);
+    // let marchEquinox = window.jd_data(eqsol[0]);
+    // console.log(window.sc_day_hm(marchEquinox[0])+" : "+marchEquinox[1]+" : "+marchEquinox[2]);
   }, [props.updateCount]);
 
   return (

@@ -29,9 +29,9 @@ export async function getEquinoxSolsticeDates(year){
   const decemberSolstice = window.jd_data(eqsol[3]);
 
   return [
-    new Date(year-1, marchEquinox[1]-1, Math.floor(marchEquinox[0])),
-    new Date(year-1, juneSolstice[1]-1, Math.floor(juneSolstice[0])),
-    new Date(year-1, septemberEquinox[1]-1, Math.floor(septemberEquinox[0])),
-    new Date(year-1, decemberSolstice[1]-1, Math.floor(decemberSolstice[0]))
+    new Date(year, marchEquinox[1]-1, Math.floor(marchEquinox[0])),
+    new Date(year, juneSolstice[1]-1, Math.floor(juneSolstice[0])),
+    new Date(year, septemberEquinox[1]-1, Math.floor(septemberEquinox[0])),
+    new Date(year, decemberSolstice[1]-1, Math.floor(decemberSolstice[0]))
   ];
 }

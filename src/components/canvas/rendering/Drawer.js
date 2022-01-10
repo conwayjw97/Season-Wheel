@@ -34,9 +34,40 @@ export default class Draw {
     this.ctx.fill();
   }
 
+  drawSeasonSections(date){
+    DateTime.getEquinoxSolsticeDates(date.year).then((equinoxSolsticeDates) => {
+      const daysInYear = DateTime.getDaysInYear(date.year);
+      let startRadians = undefined;
+
+      for(let i=0; i<equinoxSolsticeDates.length; i+=1) {
+        const date = equinoxSolsticeDates[i];
+        const dayOfYear = DateTime.getDayOfYear(date.getDate(), date.getMonth()+1, date.getFullYear());
+        const dateRadians = this.startRadians - ((dayOfYear) * ((2 * Math.PI) / daysInYear));
+
+        if(startRadians == undefined){
+          startRadians = dateRadians;
+        }
+
+        let nextDateRadians = startRadians;
+        if(equinoxSolsticeDates[i+1] != undefined){
+          const nextDate = equinoxSolsticeDates[i+1];
+          const nextDateDayOfYear = DateTime.getDayOfYear(nextDate.getDate(), nextDate.getMonth()+1, nextDate.getFullYear());
+          nextDateRadians = this.startRadians - ((nextDateDayOfYear) * ((2 * Math.PI) / daysInYear));
+        }
+
+        this.ctx.fillStyle = Colour.seasonColours[i];
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.centreX, this.centreY);
+        this.ctx.arc(this.centreX, this.centreY, this.radius, dateRadians, nextDateRadians, false);
+        this.ctx.lineTo(this.centreX, this.centreY);
+        this.ctx.closePath();
+        this.ctx.fill();
+      }
+    });
+
+  }
+
   drawMonthSections(date){
-    const equinoxSolsticeDates = DateTime.getEquinoxSolsticeDates(date.year);
-    
     let radians = - Math.PI / 2;
     this.ctx.font = "20px Consolas";
     this.ctx.strokeStyle = Colour.black;
@@ -45,7 +76,8 @@ export default class Draw {
       const daysInMonth = new Date(date.year, i, 0).getDate();
       const stepSize = ((2 * Math.PI) / DateTime.getDaysInYear(date.year)) * daysInMonth;
 
-      this.ctx.fillStyle = Colour.monthColours[i-1];
+      // this.ctx.fillStyle = Colour.monthColours[i-1];
+      // this.ctx.fillStyle = Colour.white;
       this.ctx.lineWidth = 3;
 
       this.ctx.beginPath();
@@ -54,7 +86,7 @@ export default class Draw {
       this.ctx.lineTo(this.centreX, this.centreY);
       this.ctx.closePath();
       this.ctx.stroke();
-      this.ctx.fill();
+      // this.ctx.fill();
 
       this.ctx.fillStyle = Colour.black;
 
@@ -90,7 +122,6 @@ export default class Draw {
 
   drawDateLine(date){
     const daysInYear = DateTime.getDaysInYear(date.year);
-
     const dayOfYear = DateTime.getDayOfYear(date.day, date.month, date.year);
     const relativeDayOfYear = Math.ceil((dayOfYear / 100) * (this.ctx.globalAlpha * 100));
     const dateRadians = this.startRadians - ((relativeDayOfYear) * ((2 * Math.PI) / daysInYear));

@@ -15,3 +15,7 @@ export const monthColours = [
   winterBlue, winterBlue, springGreen, springGreen, springGreen, summerYellow,
   summerYellow, summerYellow, autumnBrown, autumnBrown, autumnBrown, winterBlue
 ];
+
+export const seasonColours = [
+  springGreen, summerYellow, autumnBrown, winterBlue
+];

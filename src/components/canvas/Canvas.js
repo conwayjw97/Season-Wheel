@@ -27,6 +27,7 @@ function Canvas(props) {
   function resetCanvas(ctx, drawer){
     drawer.clear();
     drawer.drawDate(props.date);
+    drawer.drawSeasonSections(props.date);
     drawer.drawMonthSections(props.date);
     drawer.drawDayLines(props.date);
     drawer.drawDateLine(props.date);

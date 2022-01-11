@@ -35,15 +35,13 @@ function Canvas(props) {
   }
 
   useEffect(() => {
-    const ctx = canvas.current.getContext("2d");
-    const drawer = new Drawer(ctx);
-    ctx.globalAlpha = 0;
-    fadeIn(ctx, drawer);
-
-    // let eqsol = window.eqsol(2013);
-    // let marchEquinox = window.jd_data(eqsol[0]);
-    // console.log(window.sc_day_hm(marchEquinox[0])+" : "+marchEquinox[1]+" : "+marchEquinox[2]);
-  }, [props.updateCount]);
+    if(props.scriptsLoaded == true){
+      const ctx = canvas.current.getContext("2d");
+      const drawer = new Drawer(ctx);
+      ctx.globalAlpha = 0;
+      fadeIn(ctx, drawer);
+    }
+  }, [props.scriptsLoaded, props.updateCount]);
 
   return (
     <canvas ref={canvas} width={width} height={height} className="Canvas">

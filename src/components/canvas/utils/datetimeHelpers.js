@@ -15,13 +15,7 @@ export function getDayOfYear(day, month, year){
   return Math.floor((new Date(year, month-1, day) - new Date(year, 0, 0)) / 1000 / 60 / 60 / 24);
 }
 
-export async function getEquinoxSolsticeDates(year){
-  const timer = ms => new Promise(res => setTimeout(res, ms));
-
-  while(typeof window.eqsol != "function"){
-    await timer(10);
-  }
-
+export function getEquinoxSolsticeDates(year){
   const eqsol = window.eqsol(year);
   const marchEquinox = window.jd_data(eqsol[0]);
   const juneSolstice = window.jd_data(eqsol[1]);

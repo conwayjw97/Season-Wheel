@@ -1,6 +1,6 @@
 // Data Ideas: Seasons, Temperature, Daylight
 
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Canvas from './components/canvas/Canvas.js';
 import Settings from './components/settings/Settings.js';
@@ -68,10 +68,25 @@ function App() {
 
   const [dateState, dateDispatch] = useReducer(dateReducer, initialDate);
   const [updateCount, setUpdateCount] = useState(0);
+  const [scriptsLoaded, setScriptsLoaded] = useState(false);
 
   const handleSave = () => {
     setUpdateCount(updateCount+1);
   }
+
+  async function waitForScripts(){
+    const timer = ms => new Promise(res => setTimeout(res, ms));
+
+    while(typeof window.eqsol != "function"){
+      await timer(10);
+    }
+
+    setScriptsLoaded(true);
+  }
+
+  useEffect(() => {
+    waitForScripts();
+  }, []);
 
   return (
     <HelmetProvider>
@@ -79,7 +94,7 @@ function App() {
         <Helmet>
           <script src="http://www.suchelu.it/astrojs/astrojs.js" type="text/javascript" />
         </Helmet>
-        <Canvas date={dateState} updateCount={updateCount}/>
+        <Canvas date={dateState} updateCount={updateCount} scriptsLoaded={scriptsLoaded}/>
         <Settings date={dateState} handleDateChange={dateDispatch} handleSave={handleSave}/>
       </div>
     </HelmetProvider>

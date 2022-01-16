@@ -57,12 +57,12 @@ label.info {
 }
 
 label.heading {
-  padding: 1em 0 0 0;
+  padding: 1em 0;
   display: block;
 }
 
 label.dateField {
-  padding: 1em 0;
+  padding: 0 0 1em 0;
   display: block;
 }
 
@@ -84,7 +84,7 @@ input.yearInput {
 }
 
 input.checkboxInput{
-  margin-left: 1em; 
+  margin-left: 1em;
   transform: scale(1.5);
 }
 
@@ -107,20 +107,20 @@ span.variableInput {
 }
 
 span.variableDropdown {
-  width: 70%;
   display: inline-block;
-  text-align: left;
+  text-align: center;
+  height: 50px;
 }
 
 select {
   width: 90%;
+  font-size: 35px;
   cursor: pointer;
   transition: 0.3s;
   border: 0;
   border-radius: 4px;
-  margin: 0 1em;
-  width: 85%;
-  height: 2em;
+  margin-left: 0.25em;
+  height: 1.25em;
 }
 
 span.variableValue {

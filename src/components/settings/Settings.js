@@ -41,6 +41,19 @@ function Settings(props) {
         </label>
 
         <hr/>
+
+        <label className="heading">
+         Seasons
+         <span className="variableDropdown">
+           <select id="seasons" value="default" onChange={props.handleSeasonsChange}>
+             <option value="default">Astronomical</option>
+             <option value="top-down">Meteorological</option>
+             <option value="zoomed">None</option>
+           </select>
+         </span>
+        </label>
+
+        <hr/>
         <div className="separator" />
 
         <button className="save" onClick={props.handleSave}>Save</button>

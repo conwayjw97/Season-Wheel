@@ -41,22 +41,18 @@ export default class Draw {
     const startDate = equinoxSolsticeDates[equinoxSolsticeDates.length-1];
     let dayOfYear = DateTime.getDayOfYear(startDate.getDate(), startDate.getMonth()+1, startDate.getFullYear());
     let previousRadians = - this.startRadians + ((dayOfYear) * ((2 * Math.PI) / daysInYear));
-    // let previousRadians = - Math.PI / 2;
+
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = Colour.grey;
+    this.ctx.font = "20px Consolas";
+    this.ctx.fillStyle = Colour.white;
+    const textOffset = 5;
+    const dateMeanings = ["Spring Equinox", "Summer Solstice", "Autumn Equinox", "Winter Solstice"];
 
     for(let i=0; i<equinoxSolsticeDates.length; i+=1) {
       const date = equinoxSolsticeDates[i];
       dayOfYear = DateTime.getDayOfYear(date.getDate(), date.getMonth()+1, date.getFullYear());
       let dateRadians = - this.startRadians + ((dayOfYear) * ((2 * Math.PI) / daysInYear));
-
-      // let nextDateRadians = previousRadians;
-      // if(equinoxSolsticeDates[i+1] != undefined){
-      //   const nextDate = equinoxSolsticeDates[i+1];
-      //   const nextDateDayOfYear = DateTime.getDayOfYear(nextDate.getDate(), nextDate.getMonth()+1, nextDate.getFullYear());
-      //
-      //   const daysBetweenDates = nextDateDayOfYear - dayOfYear;
-      //   const stepSize = ((2 * Math.PI) / DateTime.getDaysInYear(date.year)) * daysBetweenDates;
-      //   nextDateRadians = dateRadians + stepSize;
-      // }
 
       this.ctx.fillStyle = Colour.seasonColours[i];
       this.ctx.beginPath();
@@ -65,8 +61,16 @@ export default class Draw {
       this.ctx.lineTo(this.centreX, this.centreY);
       this.ctx.closePath();
       this.ctx.fill();
+      this.ctx.stroke();
 
       previousRadians = dateRadians;
+
+      this.ctx.fillStyle = Colour.grey;
+      dateRadians = this.startRadians - ((dayOfYear) * ((2 * Math.PI) / daysInYear));
+      Text.textAlignOutwards(this.ctx, dateRadians);
+      const lineEndX = this.centreX + (this.radius + textOffset) * Math.cos(dateRadians);
+      const lineEndY = this.centreY - (this.radius + textOffset) * Math.sin(dateRadians);
+      this.ctx.fillText(dateMeanings[i] + ": " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear(), lineEndX, lineEndY);
     }
   }
 
@@ -74,6 +78,7 @@ export default class Draw {
     let radians = - Math.PI / 2;
     this.ctx.font = "20px Consolas";
     this.ctx.strokeStyle = Colour.black;
+    Text.textAlignCentered(this.ctx);
     const textOffset = this.radius / 3;
     for(let i=1; i<13; i+=1) {
       const daysInMonth = new Date(date.year, i, 0).getDate();

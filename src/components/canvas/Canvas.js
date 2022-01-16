@@ -27,7 +27,12 @@ function Canvas(props) {
   function resetCanvas(ctx, drawer){
     drawer.clear();
     drawer.drawDate(props.date);
-    drawer.drawSeasonSections(props.date);
+    if(props.seasons == "astronomical")
+      drawer.drawAstroSeasonSections(props.date);
+    if(props.seasons == "meteorological")
+      drawer.drawMeteoSeasonSections(props.date);
+    if(props.seasons == "none")
+      drawer.drawWhiteCircle();
     drawer.drawMonthSections(props.date);
     drawer.drawDayLines(props.date);
     drawer.drawDateLine(props.date);

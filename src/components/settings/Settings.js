@@ -45,10 +45,10 @@ function Settings(props) {
         <label className="heading">
          Seasons
          <span className="variableDropdown">
-           <select id="seasons" value="default" onChange={props.handleSeasonsChange}>
-             <option value="default">Astronomical</option>
-             <option value="top-down">Meteorological</option>
-             <option value="zoomed">None</option>
+           <select id="seasons" value="default" value={props.season} onChange={props.handleSeasonsChange}>
+             <option value="astronomical">Astronomical</option>
+             <option value="meteorological">Meteorological</option>
+             <option value="none">None</option>
            </select>
          </span>
         </label>

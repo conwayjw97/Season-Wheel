@@ -67,11 +67,17 @@ function App() {
   const height = window.innerHeight;
 
   const [dateState, dateDispatch] = useReducer(dateReducer, initialDate);
+  const [seasonsState, setSeasonsState] = useState("astronomical");
   const [updateCount, setUpdateCount] = useState(0);
   const [scriptsLoaded, setScriptsLoaded] = useState(false);
 
   const handleSave = () => {
     setUpdateCount(updateCount+1);
+  }
+
+  const handleSeasonsChange = (event) => {
+    console.log(seasonsState);
+    setSeasonsState(event.target.value);
   }
 
   async function waitForScripts(){
@@ -94,8 +100,8 @@ function App() {
         <Helmet>
           <script src="http://www.suchelu.it/astrojs/astrojs.js" type="text/javascript" />
         </Helmet>
-        <Canvas date={dateState} updateCount={updateCount} scriptsLoaded={scriptsLoaded}/>
-        <Settings date={dateState} handleDateChange={dateDispatch} handleSave={handleSave}/>
+        <Canvas date={dateState} seasons={seasonsState} updateCount={updateCount} scriptsLoaded={scriptsLoaded}/>
+        <Settings date={dateState} handleDateChange={dateDispatch} seasons={seasonsState} handleSeasonsChange={handleSeasonsChange} handleSave={handleSave}/>
       </div>
     </HelmetProvider>
   );

@@ -113,8 +113,7 @@ span.variableDropdown {
 }
 
 select {
-  width: 90%;
-  font-size: 35px;
+  font-size: 28px;
   cursor: pointer;
   transition: 0.3s;
   border: 0;

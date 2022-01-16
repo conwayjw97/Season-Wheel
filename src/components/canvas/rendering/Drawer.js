@@ -34,7 +34,7 @@ export default class Draw {
     this.ctx.fill();
   }
 
-  drawSeasonSections(date){
+  drawAstroSeasonSections(date){
     const equinoxSolsticeDates = DateTime.getEquinoxSolsticeDates(date.year);
     const daysInYear = DateTime.getDaysInYear(date.year);
 
@@ -72,6 +72,20 @@ export default class Draw {
       const lineEndY = this.centreY - (this.radius + textOffset) * Math.sin(dateRadians);
       this.ctx.fillText(dateMeanings[i] + ": " + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear(), lineEndX, lineEndY);
     }
+  }
+
+  drawMeteoSeasonSections(date){
+  }
+
+  drawWhiteCircle(){
+    this.ctx.fillStyle = Colour.white;
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.centreX, this.centreY);
+    this.ctx.arc(this.centreX, this.centreY, this.radius, 0, 2 * Math.PI, false);
+    this.ctx.lineTo(this.centreX, this.centreY);
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 
   drawMonthSections(date){

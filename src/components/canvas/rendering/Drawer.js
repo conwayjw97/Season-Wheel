@@ -75,17 +75,36 @@ export default class Draw {
   }
 
   drawMeteoSeasonSections(date){
+    let radians = - Math.PI / 2;
+    this.ctx.font = "20px Consolas";
+    this.ctx.strokeStyle = Colour.black;
+    Text.textAlignCentered(this.ctx);
+    const textOffset = this.radius / 3;
+    for(let i=1; i<13; i+=1) {
+      const daysInMonth = new Date(date.year, i, 0).getDate();
+      const stepSize = ((2 * Math.PI) / DateTime.getDaysInYear(date.year)) * daysInMonth;
+
+      this.ctx.fillStyle = Colour.monthColours[i-1];
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.centreX, this.centreY);
+      this.ctx.arc(this.centreX, this.centreY, this.radius, radians, radians + stepSize, false);
+      this.ctx.lineTo(this.centreX, this.centreY);
+      this.ctx.closePath();
+      this.ctx.fill();
+
+      radians += stepSize;
+    }
   }
 
   drawWhiteCircle(){
-    this.ctx.fillStyle = Colour.white;
+    this.ctx.fillStyle = Colour.lightGrey;
     this.ctx.beginPath();
     this.ctx.moveTo(this.centreX, this.centreY);
     this.ctx.arc(this.centreX, this.centreY, this.radius, 0, 2 * Math.PI, false);
     this.ctx.lineTo(this.centreX, this.centreY);
     this.ctx.closePath();
     this.ctx.fill();
-    this.ctx.stroke();
   }
 
   drawMonthSections(date){

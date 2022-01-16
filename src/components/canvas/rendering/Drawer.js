@@ -37,62 +37,37 @@ export default class Draw {
   drawSeasonSections(date){
     const equinoxSolsticeDates = DateTime.getEquinoxSolsticeDates(date.year);
     const daysInYear = DateTime.getDaysInYear(date.year);
-    let startRadians = undefined;
+
+    const startDate = equinoxSolsticeDates[equinoxSolsticeDates.length-1];
+    let dayOfYear = DateTime.getDayOfYear(startDate.getDate(), startDate.getMonth()+1, startDate.getFullYear());
+    let previousRadians = - this.startRadians + ((dayOfYear) * ((2 * Math.PI) / daysInYear));
+    // let previousRadians = - Math.PI / 2;
 
     for(let i=0; i<equinoxSolsticeDates.length; i+=1) {
       const date = equinoxSolsticeDates[i];
-      const dayOfYear = DateTime.getDayOfYear(date.getDate(), date.getMonth()+1, date.getFullYear());
-      const dateRadians = this.startRadians - ((dayOfYear) * ((2 * Math.PI) / daysInYear));
+      dayOfYear = DateTime.getDayOfYear(date.getDate(), date.getMonth()+1, date.getFullYear());
+      let dateRadians = - this.startRadians + ((dayOfYear) * ((2 * Math.PI) / daysInYear));
 
-      if(startRadians == undefined){
-        startRadians = dateRadians;
-      }
-
-      let nextDateRadians = startRadians;
-      if(equinoxSolsticeDates[i+1] != undefined){
-        const nextDate = equinoxSolsticeDates[i+1];
-        const nextDateDayOfYear = DateTime.getDayOfYear(nextDate.getDate(), nextDate.getMonth()+1, nextDate.getFullYear());
-        nextDateRadians = this.startRadians - ((nextDateDayOfYear) * ((2 * Math.PI) / daysInYear));
-      }
+      // let nextDateRadians = previousRadians;
+      // if(equinoxSolsticeDates[i+1] != undefined){
+      //   const nextDate = equinoxSolsticeDates[i+1];
+      //   const nextDateDayOfYear = DateTime.getDayOfYear(nextDate.getDate(), nextDate.getMonth()+1, nextDate.getFullYear());
+      //
+      //   const daysBetweenDates = nextDateDayOfYear - dayOfYear;
+      //   const stepSize = ((2 * Math.PI) / DateTime.getDaysInYear(date.year)) * daysBetweenDates;
+      //   nextDateRadians = dateRadians + stepSize;
+      // }
 
       this.ctx.fillStyle = Colour.seasonColours[i];
       this.ctx.beginPath();
       this.ctx.moveTo(this.centreX, this.centreY);
-      this.ctx.arc(this.centreX, this.centreY, this.radius, dateRadians, nextDateRadians, false);
+      this.ctx.arc(this.centreX, this.centreY, this.radius, previousRadians, dateRadians, false);
       this.ctx.lineTo(this.centreX, this.centreY);
       this.ctx.closePath();
       this.ctx.fill();
-    }
 
-    // DateTime.getEquinoxSolsticeDates(date.year).then((equinoxSolsticeDates) => {
-    //   const daysInYear = DateTime.getDaysInYear(date.year);
-    //   let startRadians = undefined;
-    //
-    //   for(let i=0; i<equinoxSolsticeDates.length; i+=1) {
-    //     const date = equinoxSolsticeDates[i];
-    //     const dayOfYear = DateTime.getDayOfYear(date.getDate(), date.getMonth()+1, date.getFullYear());
-    //     const dateRadians = this.startRadians - ((dayOfYear) * ((2 * Math.PI) / daysInYear));
-    //
-    //     if(startRadians == undefined){
-    //       startRadians = dateRadians;
-    //     }
-    //
-    //     let nextDateRadians = startRadians;
-    //     if(equinoxSolsticeDates[i+1] != undefined){
-    //       const nextDate = equinoxSolsticeDates[i+1];
-    //       const nextDateDayOfYear = DateTime.getDayOfYear(nextDate.getDate(), nextDate.getMonth()+1, nextDate.getFullYear());
-    //       nextDateRadians = this.startRadians - ((nextDateDayOfYear) * ((2 * Math.PI) / daysInYear));
-    //     }
-    //
-    //     this.ctx.fillStyle = Colour.seasonColours[i];
-    //     this.ctx.beginPath();
-    //     this.ctx.moveTo(this.centreX, this.centreY);
-    //     this.ctx.arc(this.centreX, this.centreY, this.radius, dateRadians, nextDateRadians, false);
-    //     this.ctx.lineTo(this.centreX, this.centreY);
-    //     this.ctx.closePath();
-    //     this.ctx.fill();
-    //   }
-    // });
+      previousRadians = dateRadians;
+    }
   }
 
   drawMonthSections(date){

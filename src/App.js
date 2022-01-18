@@ -98,7 +98,7 @@ function App() {
     <HelmetProvider>
       <div style={{'height':height}} className='App'>
         <Helmet>
-          <script src="http://www.suchelu.it/astrojs/astrojs.js" type="text/javascript" />
+          <script src={process.env.PUBLIC_URL + "/lib/astrojs.js"} type="text/javascript" />
         </Helmet>
         <Canvas date={dateState} seasons={seasonsState} updateCount={updateCount} scriptsLoaded={scriptsLoaded}/>
         <Settings date={dateState} handleDateChange={dateDispatch} seasons={seasonsState} handleSeasonsChange={handleSeasonsChange} handleSave={handleSave}/>

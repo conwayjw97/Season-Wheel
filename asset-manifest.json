@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Season-Wheel/static/css/main.c07067ca.chunk.css",
+    "main.js": "/Season-Wheel/static/js/main.9c86e25a.chunk.js",
+    "main.js.map": "/Season-Wheel/static/js/main.9c86e25a.chunk.js.map",
+    "runtime-main.js": "/Season-Wheel/static/js/runtime-main.b157d890.js",
+    "runtime-main.js.map": "/Season-Wheel/static/js/runtime-main.b157d890.js.map",
+    "static/js/2.dde7d248.chunk.js": "/Season-Wheel/static/js/2.dde7d248.chunk.js",
+    "static/js/2.dde7d248.chunk.js.map": "/Season-Wheel/static/js/2.dde7d248.chunk.js.map",
+    "static/js/3.d403c796.chunk.js": "/Season-Wheel/static/js/3.d403c796.chunk.js",
+    "static/js/3.d403c796.chunk.js.map": "/Season-Wheel/static/js/3.d403c796.chunk.js.map",
+    "index.html": "/Season-Wheel/index.html",
+    "static/css/main.c07067ca.chunk.css.map": "/Season-Wheel/static/css/main.c07067ca.chunk.css.map",
+    "static/js/2.dde7d248.chunk.js.LICENSE.txt": "/Season-Wheel/static/js/2.dde7d248.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b157d890.js",
+    "static/js/2.dde7d248.chunk.js",
+    "static/css/main.c07067ca.chunk.css",
+    "static/js/main.9c86e25a.chunk.js"
+  ]
+}

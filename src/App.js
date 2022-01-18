@@ -18,7 +18,8 @@ const initialDate = {
 
 function dateReducer(state, action) {
   const elementId = action.nativeEvent.srcElement.id;
-  const newValue = action.target.value;
+  const newValue = parseInt(action.target.value);
+  
   switch (elementId) {
     case 'day':
       if(newValue > 0 && newValue < 32){
@@ -32,7 +33,7 @@ function dateReducer(state, action) {
       }
     case 'month':
       if(newValue > 0 && newValue < 13){
-        if(state.compMonth < newValue){
+        if(state.compMonth < newValue || (state.compMonth == newValue && state.day > state.compDay)){
           return {...state, month: newValue, compMonth: newValue};
         } else {
           return {...state, month: newValue};
@@ -49,13 +50,13 @@ function dateReducer(state, action) {
     case 'compDisabled':
       return {...state, compDisabled: !action.target.checked};
     case 'compDay':
-      if(newValue > 0 && newValue < 32){
+      if(newValue > 0 && newValue < 32 && (state.compMonth > state.month || (state.compMonth == state.month && newValue > state.day))){
         return {...state, compDay: newValue};
       } else {
         return {...state};
       }
     case 'compMonth':
-      if(newValue > 0 && newValue < 13 && newValue > state.month){
+      if(newValue > 0 && newValue < 13 && (newValue > state.month || (newValue == state.month && state.compDay > state.day))){
         return {...state, compMonth: newValue};
       } else {
         return {...state};
